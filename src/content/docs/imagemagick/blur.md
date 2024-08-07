@@ -1,6 +1,6 @@
 ---
-title: "Размытие"
-description: "Как размыть изображение с помощью ImageMagick"
+title: 'Размытие'
+description: 'Как размыть изображение с помощью ImageMagick'
 ---
 
 Чтобы размыть изображение с помощью `ImageMagick`:
@@ -19,7 +19,6 @@ magick input.png -blur <радиус>x<сигма> output.png
 :::
 
 ## Пример
-
 
 ```shell
 magick satori.png -blur 0x8 satori-blurred.png

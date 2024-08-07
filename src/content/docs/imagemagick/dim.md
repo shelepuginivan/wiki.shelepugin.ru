@@ -1,6 +1,6 @@
 ---
-title: "Затемнение"
-description: "Как затемнить изображение с помощью ImageMagick"
+title: 'Затемнение'
+description: 'Как затемнить изображение с помощью ImageMagick'
 ---
 
 Чтобы затемнить изображение с помощью `ImageMagick`:
@@ -10,7 +10,6 @@ magick input.png -fill black -colorize <процент>% output.png
 ```
 
 ## Пример
-
 
 ```shell
 magick forest.png -fill black -colorize 60% forest-dimmed.png
