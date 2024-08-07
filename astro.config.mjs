@@ -16,6 +16,10 @@ export default defineConfig({
 				github: 'https://github.com/shelepuginivan',
 			},
 			sidebar: [],
+
+			customCss: [
+                './src/styles/custom.css',
+            ],
 		}),
 	],
 });
