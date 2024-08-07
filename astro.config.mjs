@@ -15,11 +15,25 @@ export default defineConfig({
             social: {
                 github: 'https://github.com/shelepuginivan',
             },
+
+            pagination: false,
+
             sidebar: [
                 {
-                    label: 'ImageMagick',
+                    label: 'Приложения и утилиты',
                     collapsed: true,
-                    autogenerate: { directory: 'imagemagick' },
+                    items: [
+                        {
+                            label: 'ffmpeg',
+                            collapsed: true,
+                            autogenerate: { directory: 'apps/ffmpeg' },
+                        },
+                        {
+                            label: 'ImageMagick',
+                            collapsed: true,
+                            autogenerate: { directory: 'apps/imagemagick' },
+                        },
+                    ],
                 },
             ],
 
