@@ -20,6 +20,8 @@ export default defineConfig({
 			customCss: [
                 './src/styles/custom.css',
             ],
+
+            favicon: 'favicon.png',
 		}),
 	],
 });
