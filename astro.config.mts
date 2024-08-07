@@ -1,7 +1,6 @@
 import { defineConfig } from 'astro/config'
 import starlight from '@astrojs/starlight'
 
-// https://astro.build/config
 export default defineConfig({
     integrations: [
         starlight({
@@ -19,6 +18,17 @@ export default defineConfig({
             pagination: false,
 
             sidebar: [
+                {
+                    label: 'Linux',
+                    collapsed: true,
+                    items: [
+                        {
+                            label: 'Система',
+                            collapsed: true,
+                            autogenerate: { directory: 'linux/sys' },
+                        },
+                    ],
+                },
                 {
                     label: 'Приложения и утилиты',
                     collapsed: true,
