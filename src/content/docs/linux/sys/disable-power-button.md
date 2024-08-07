@@ -22,4 +22,4 @@ echo "HandlePowerKey=ignore" >> /etc/systemd/logind.conf
 
 ## См. также
 
-- [`logind.conf(5)`](https://man.archlinux.org/man/logind.conf.5)
+-   [`logind.conf(5)`](https://man.archlinux.org/man/logind.conf.5)
