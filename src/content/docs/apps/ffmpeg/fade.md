@@ -44,4 +44,4 @@ ffmpeg -i video.mp4 -vf "fade=t=in:st=0:d=10,fade=t=out:st=10:d=5" -c:a copy out
 
 ## См. также
 
--   [How do I fade in and out in FFmpeg?](https://video.stackexchange.com/questions/28269/how-do-i-fade-in-and-out-in-ffmpeg)
+-   [\[Stack Exchange\] How do I fade in and out in FFmpeg?](https://video.stackexchange.com/questions/28269/how-do-i-fade-in-and-out-in-ffmpeg)
