@@ -5,23 +5,17 @@ import starlight from '@astrojs/starlight';
 export default defineConfig({
 	integrations: [
 		starlight({
-			title: 'My Docs',
+			title: 'wiki.shelepugin.ru',
+			locales: {
+                root: {
+                    label: 'Русский',
+                    lang: 'ru',
+                },
+            },
 			social: {
-				github: 'https://github.com/withastro/starlight',
+				github: 'https://github.com/shelepuginivan',
 			},
-			sidebar: [
-				{
-					label: 'Guides',
-					items: [
-						// Each item here is one entry in the navigation menu.
-						{ label: 'Example Guide', slug: 'guides/example' },
-					],
-				},
-				{
-					label: 'Reference',
-					autogenerate: { directory: 'reference' },
-				},
-			],
+			sidebar: [],
 		}),
 	],
 });
