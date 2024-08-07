@@ -15,11 +15,21 @@ export default defineConfig({
 			social: {
 				github: 'https://github.com/shelepuginivan',
 			},
-			sidebar: [],
+			sidebar: [
+                {
+                    label: 'ImageMagick',
+                    collapsed: true,
+                    autogenerate: { directory: 'imagemagick' },
+                },
+            ],
 
 			customCss: [
                 './src/styles/custom.css',
             ],
+
+            expressiveCode: {
+                themes: ['dracula-soft', 'solarized-light'],
+            },
 
             favicon: 'favicon.png',
 		}),
