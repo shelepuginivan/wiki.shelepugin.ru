@@ -3,9 +3,12 @@ title: 'Главная страница'
 description: 'Моя небольшая база знаний. Здесь я сохраняю небольшие заметки, инструкции или гайды, к которым периодически нужен доступ.'
 ---
 
+import { Image } from 'astro:assets'
+import library from '../../assets/library.webp'
+
 **Добро пожаловать на [wiki.shelepugin.ru](https://wiki.shelepugin.ru)!**
 
-![Заброшенная библиотека](../../assets/library.webp)
+<Image src={library} alt="Заброшенная библиотека" loading="eager"/>
 
 ---
 
