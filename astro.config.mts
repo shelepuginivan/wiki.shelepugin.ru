@@ -15,6 +15,13 @@ export default defineConfig({
                 github: 'https://github.com/shelepuginivan',
             },
 
+            logo: {
+                light: './src/assets/logo-light.svg',
+                dark: './src/assets/logo-dark.svg',
+                replacesTitle: true,
+                alt: 'wiki.shelepugin.ru',
+            },
+
             pagination: false,
 
             sidebar: [
