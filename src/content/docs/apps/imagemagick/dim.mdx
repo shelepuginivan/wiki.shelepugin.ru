@@ -3,6 +3,11 @@ title: 'Затемнение'
 description: 'Как затемнить изображение с помощью ImageMagick'
 ---
 
+import { Image } from 'astro:assets'
+import { Tabs, TabItem } from '@astrojs/starlight/components'
+import after from './img/dim_after.webp'
+import before from './img/dim_before.webp'
+
 Чтобы затемнить изображение с помощью `ImageMagick`:
 
 ```shell
@@ -15,6 +20,11 @@ magick input.png -fill black -colorize <процент>% output.png
 magick forest.png -fill black -colorize 60% forest-dimmed.png
 ```
 
-|                              |                                |
-| :--------------------------: | :----------------------------: |
-| ![До](./img/dim_before.webp) | ![После](./img/dim_after.webp) |
+<Tabs>
+    <TabItem label="До (forest.png)">
+        <Image src={before} alt="До" />
+    </TabItem>
+    <TabItem label="После (forest-dimmed.png)">
+        <Image src={after} alt="После" />
+    </TabItem>
+</Tabs>
