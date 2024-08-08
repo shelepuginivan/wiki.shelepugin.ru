@@ -2,19 +2,24 @@ import { defineConfig } from 'astro/config'
 import starlight from '@astrojs/starlight'
 
 export default defineConfig({
+    site: 'https://wiki.shelepugin.ru',
+
     integrations: [
         starlight({
             title: 'wiki.shelepugin.ru',
+
             locales: {
                 root: {
                     label: 'Русский',
                     lang: 'ru',
                 },
             },
+
             social: {
                 github: 'https://github.com/shelepuginivan',
             },
 
+            favicon: 'favicon.png',
             logo: {
                 light: './src/assets/logo-light.svg',
                 dark: './src/assets/logo-dark.svg',
@@ -23,6 +28,12 @@ export default defineConfig({
             },
 
             pagination: false,
+
+            customCss: ['./src/styles/custom.css'],
+
+            expressiveCode: {
+                themes: ['dracula-soft', 'solarized-light'],
+            },
 
             sidebar: [
                 {
@@ -53,14 +64,6 @@ export default defineConfig({
                     ],
                 },
             ],
-
-            customCss: ['./src/styles/custom.css'],
-
-            expressiveCode: {
-                themes: ['dracula-soft', 'solarized-light'],
-            },
-
-            favicon: 'favicon.png',
         }),
     ],
 })
