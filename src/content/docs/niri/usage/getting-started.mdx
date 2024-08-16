@@ -12,7 +12,7 @@ import { FileTree, Steps, Tabs, TabItem } from '@astrojs/starlight/components'
 [Repology](https://repology.илиg/project/niri/versions) ниже.
 Если вы хотите собрать niri вручную, см. раздел [Сборка](#сборка).
 
-[![Статус сборки](https://repology.илиg/badge/vertical-allrepos/niri.svg)](https://repology.org/project/niri/versions)
+[![Статус сборки](https://repology.org/badge/vertical-allrepos/niri.svg)](https://repology.org/project/niri/versions)
 
 После установки запустите сессию niri в вашем менеджере дисплеев, например, GDM.
 Нажмите <kbd>Super</kbd><kbd>T</kbd>, чтобы запустить терминал
@@ -78,12 +78,12 @@ debug {
     ```
 
     <FileTree>
-- dev
-  - dri
-    - by-path/
-    - card0
-    - card1
-    - **renderD128**
+        - dev
+          - dri
+            - by-path/
+            - card0
+            - card1
+            - **renderD128**
 
     </FileTree>
 
@@ -179,20 +179,18 @@ niri.
 
 <Steps>
 
-1. Установите зависимости для вашего дистрибутива:
+1.  Установите зависимости для вашего дистрибутива:
 
     <Tabs>
         <TabItem label="Ubuntu 23.10">
-            ```shell sudo apt-get install -y gcc clang libudev-dev libgbm-dev
-            libxkbcommon-dev libegl1-mesa-dev libwayland-dev libinput-dev
-            libdbus-1-dev libsystemd-dev libseat-dev libpipewire-0.3-dev
-            libpango1.0-dev ```
+            ```shell
+            sudo apt-get install -y gcc clang libudev-dev libgbm-dev libxkbcommon-dev libegl1-mesa-dev libwayland-dev libinput-dev libdbus-1-dev libsystemd-dev libseat-dev libpipewire-0.3-dev libpango1.0-dev
+            ```
         </TabItem>
         <TabItem label="Fedora">
-            ```shell sudo dnf install gcc libudev-devel libgbm-devel
-            libxkbcommon-devel wayland-devel libinput-devel dbus-devel
-            systemd-devel libseat-devel pipewire-devel pango-devel
-            cairo-gobject-devel clang ```
+            ```shell
+            sudo dnf install gcc libudev-devel libgbm-devel libxkbcommon-devel wayland-devel libinput-devel dbus-devel systemd-devel libseat-devel pipewire-devel pango-devel cairo-gobject-devel clang
+            ```
         </TabItem>
     </Tabs>
 
@@ -253,20 +251,20 @@ nix run --impure github:guibou/nixGL -- ./results/bin/niri
 
 <FileTree>
 
--   usr
-    -   bin
-        -   niri
-        -   niri-session
-    -   lib
-        -   systemd
-            -   user
-                -   niri.service
-                -   niri-shutdown.target
-    -   share
-        -   wayland-sessions
-            -   niri.desktop
-        -   xdg-desktop-portal
-            -   niri-portals.conf
+    -   usr
+        -   bin
+            -   niri
+            -   niri-session
+        -   lib
+            -   systemd
+                -   user
+                    -   niri.service
+                    -   niri-shutdown.target
+        -   share
+            -   wayland-sessions
+                -   niri.desktop
+            -   xdg-desktop-portal
+                -   niri-portals.conf
 
 </FileTree>
 
@@ -287,20 +285,20 @@ nix run --impure github:guibou/nixGL -- ./results/bin/niri
 
 <FileTree>
 
--   etc
-    -   systemd
-        -   user
-            -   niri.service
-            -   niri-shutdown.target
--   usr
-    -   local
-        -   bin
-            -   niri
-            -   niri-session
-        -   share
-            -   wayland-sessions
-                -   niri.desktop
-            -   xdg-desktop-portal
-                -   niri-portals.conf
+    -   etc
+        -   systemd
+            -   user
+                -   niri.service
+                -   niri-shutdown.target
+    -   usr
+        -   local
+            -   bin
+                -   niri
+                -   niri-session
+            -   share
+                -   wayland-sessions
+                    -   niri.desktop
+                -   xdg-desktop-portal
+                    -   niri-portals.conf
 
 </FileTree>
