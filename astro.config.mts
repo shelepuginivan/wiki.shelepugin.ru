@@ -29,7 +29,7 @@ export default defineConfig({
 
             pagination: false,
 
-            customCss: ['./src/styles/custom.css'],
+            customCss: ['./src/styles/custom.css', './src/styles/markdown.css'],
 
             expressiveCode: {
                 themes: ['dracula-soft', 'solarized-light'],
@@ -44,6 +44,20 @@ export default defineConfig({
                             label: 'Система',
                             collapsed: true,
                             autogenerate: { directory: 'linux/sys' },
+                        },
+                    ],
+                },
+                {
+                    label: 'Niri',
+                    collapsed: true,
+                    items: [
+                        {
+                            label: 'Неофициальный перевод niri wiki',
+                            link: '/niri/home',
+                        },
+                        {
+                            label: 'Использование',
+                            autogenerate: { directory: 'niri/usage' },
                         },
                     ],
                 },
