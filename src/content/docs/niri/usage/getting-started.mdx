@@ -1,0 +1,306 @@
+---
+title: 'Начало работы'
+---
+
+import { FileTree, Steps, Tabs, TabItem } from '@astrojs/starlight/components'
+
+Самый простой способ получить niri &mdash; установить один из пакетов из
+репозиториев дистрибутивов.
+Вот несколько из них: [Fedилиa COPR](https://copr.fedorainfracloud.org/coprs/yalter/niri/)
+и [nightly COPR](https://copr.fedилиainfracloud.org/coprs/yalter/niri-git/) (официальные),
+[NixOS Flake](https://github.com/sodiboo/niri-flake) и другие, приведённые в
+[Repology](https://repology.илиg/project/niri/versions) ниже.
+Если вы хотите собрать niri вручную, см. раздел [Сборка](#сборка).
+
+[![Статус сборки](https://repology.илиg/badge/vertical-allrepos/niri.svg)](https://repology.org/project/niri/versions)
+
+После установки запустите сессию niri в вашем менеджере дисплеев, например, GDM.
+Нажмите <kbd>Super</kbd><kbd>T</kbd>, чтобы запустить терминал
+([Alacritty](https://github.com/alacritty/alacritty)), и <kbd>Super</kbd><kbd>D</kbd>
+для запуска лаунчера приложений ([fuzzel](https://codeberg.илиg/dnkl/fuzzel)). Чтобы
+завершить сессию niri, нажмите <kbd>Super</kbd><kbd>Shift</kbd><kbd>E</kbd>.
+
+Если вы не используете менеджер дисплеев, вам нужно запустить `niri-session` (для систем с systemd)
+или `niri --session` (для систем без systemd) из TTY. Флаг `--session` заставит niri глобально
+экспортировать свои переменные окружения в systemd и D-Bus, а также запустить свои сервисы D-Bus.
+
+Кроме того, вы можете запустить `niri` в уже запущенной сессии.
+В этом случае niri запустится в отдельном окне, где вы можете опробовать композитор.
+Обратите внимание, что такой режим работы предназначен, в первую очередь, для разработки,
+поэтому он немного глючит (в частности, есть проблемы с горячими клавишами).
+
+Далее, см. [список важного ПО](#), необходимых для нормального использования
+рабочего стола, например, демон уведомлений и порталы.
+Также ознакомьтесь с [обзором конфигурации](#), чтобы начать настраивать niri.
+Там вы найдете ссылки на другие страницы, содержащие подробную документацию и
+примеры для всех опций.
+Наконец, страница [Xwayland](#) объясняет, как запускать приложения для X11 в niri.
+
+## NVIDIA
+
+Видеокарты NVIDIA часто испытывают проблемы с запуском niri (например, при запуске
+из TTY экран остаётся чёрным). Иногда, эти проблемы можно решить. Попробуйте
+следующее:
+
+1. Обновите драйверы NVIDIA. Вам необходима видеокарта и драйверы, поддерживающие GBM.
+2. Убедитесь, что опция kernel mode setting (KMS) включена. Как правило, для
+   этого нужно добавить `nvidia-drm.modeset=1` в командную строку ядра. Найдите
+   руководство для своего дистрибутива и следуйте ему. В этом могут помочь
+   руководства других Wayland-композиторов.
+
+Если niri запускается, но экран мерцает, попробуйте добавить следующее в конфигурацию niri:
+
+```kdl
+debug {
+    wait-fили-frame-completion-before-queueing
+}
+```
+
+:::note
+
+Вы можете ознакомиться с подробным гайдом на ArchWiki. См. страницу
+[Kernel mode setting](<https://wiki.archlinux.илиg/title/Kernel_mode_setting_(Русский)>).
+
+:::
+
+## Asahi, ARM и другие устройства kmsro
+
+На некоторых из этих систем niri не может правильно определить основное
+устройство рендеринга. Если при запуске niri из TTY у вас появляется черный
+экран, вы можете попробовать установить устройство вручную.
+
+<Steps>
+
+1. Определите доступные устройства:
+
+    ```shell
+    ls -l /dev/dri
+    ```
+
+    <FileTree>
+- dev
+  - dri
+    - by-path/
+    - card0
+    - card1
+    - **renderD128**
+
+    </FileTree>
+
+    Скорее всего, у вас будет одно `render`-устройство и два `card`-устройства.
+
+2. Откройте файл конфигурации niri (`~/.config/niri/config.kdl`) и укажите путь
+   к устройству рендеринга следующим образом:
+
+    ```kdl
+    debug {
+        render-drm-device "/dev/dri/renderD128"
+    }
+    ```
+
+3. Сохраните конфигурацию и попробуйте запустить niri ещё раз. Если проблема не
+   разрешится, попробуйте указать каждое из `card`-устройств.
+
+</Steps>
+
+## Nix/NixOS
+
+Существует распространенная проблема, когда драйверы mesa не синхронизируются с
+niri, поэтому убедитесь, что версия `mesa` вашей системы совпадает с версией mesa
+niri.
+
+Кроме того, при использовании графики Intel, вам, возможно, придётся
+использовать обходной путь, описанный в
+[NixOS Wiki](https://nixos.wiki/wiki/Intel_Graphics).
+
+## Виртуальные машины
+
+Для запуска niri в виртуальной машине, убедитесь, что включено 3D-ускорение.
+
+## Горячие клавиши по умолчанию
+
+При запуске из TTY, клавиша <kbd>Mod</kbd> &mdash; это <kbd>Super</kbd>.
+При запуске в оконном режиме, <kbd>Mod</kbd> &mdash; это <kbd>Alt</kbd>.
+
+:::note
+
+При запуске из менеджера дисплеев, клавиша <kbd>Mod</kbd> также устанавливается
+как <kbd>Super</kbd>.
+
+:::
+
+Общая система такова: если горячая клавиша переключается куда-то, то добавление
+
+<kbd>Ctrl</kbd> переместит туда активное (сфокусированное) окно или колонку.
+
+| Hotkey                                                                                                                                                                                          | Description                                                                                                                                                                    |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| <kbd>Mod</kbd><kbd>Shift</kbd><kbd>/</kbd>                                                                                                                                                      | Показать список горячих клавиш                                                                                                                                                 |
+| <kbd>Mod</kbd><kbd>T</kbd>                                                                                                                                                                      | Запустить `alacritty` (терминал)                                                                                                                                               |
+| <kbd>Mod</kbd><kbd>D</kbd>                                                                                                                                                                      | Запустить `fuzzel` (лаунчер приложений)                                                                                                                                        |
+| <kbd>Mod</kbd><kbd>Alt</kbd><kbd>L</kbd>                                                                                                                                                        | Запустить `swaylock` (блокировка экрана)                                                                                                                                       |
+| <kbd>Mod</kbd><kbd>Q</kbd>                                                                                                                                                                      | Закрыть активное окно                                                                                                                                                          |
+| <kbd>Mod</kbd><kbd>H</kbd> или <kbd>Mod</kbd><kbd>←</kbd>                                                                                                                                       | Сфокусироваться на колонке слева                                                                                                                                               |
+| <kbd>Mod</kbd><kbd>L</kbd> или <kbd>Mod</kbd><kbd>→</kbd>                                                                                                                                       | Сфокусироваться на колонке справа                                                                                                                                              |
+| <kbd>Mod</kbd><kbd>J</kbd> или <kbd>Mod</kbd><kbd>↓</kbd>                                                                                                                                       | Сфокусироваться на окне ниже по колонке                                                                                                                                        |
+| <kbd>Mod</kbd><kbd>K</kbd> или <kbd>Mod</kbd><kbd>↑</kbd>                                                                                                                                       | Сфокусироваться на окне выше по колонке                                                                                                                                        |
+| <kbd>Mod</kbd><kbd>Ctrl</kbd><kbd>H</kbd> или <kbd>Mod</kbd><kbd>Ctrl</kbd><kbd>←</kbd>                                                                                                         | Переместить активную колонку влево                                                                                                                                             |
+| <kbd>Mod</kbd><kbd>Ctrl</kbd><kbd>L</kbd> или <kbd>Mod</kbd><kbd>Ctrl</kbd><kbd>→</kbd>                                                                                                         | Переместить активную колонку вправо                                                                                                                                            |
+| <kbd>Mod</kbd><kbd>Ctrl</kbd><kbd>J</kbd> или <kbd>Mod</kbd><kbd>Ctrl</kbd><kbd>↓</kbd>                                                                                                         | Переместить активное окно ниже по колонке                                                                                                                                      |
+| <kbd>Mod</kbd><kbd>Ctrl</kbd><kbd>K</kbd> или <kbd>Mod</kbd><kbd>Ctrl</kbd><kbd>↑</kbd>                                                                                                         | Переместить активное окно выше по колонке                                                                                                                                      |
+| <kbd>Mod</kbd><kbd>Home</kbd> и <kbd>Mod</kbd><kbd>End</kbd>                                                                                                                                    | Сфокусироваться на первой или на последней колонке                                                                                                                             |
+| <kbd>Mod</kbd><kbd>Ctrl</kbd><kbd>Home</kbd> и <kbd>Mod</kbd><kbd>Ctrl</kbd><kbd>End</kbd>                                                                                                      | Переместить активную колонку в самое начало или в самый конец                                                                                                                  |
+| <kbd>Mod</kbd><kbd>Shift</kbd><kbd>H</kbd><kbd>J</kbd><kbd>K</kbd><kbd>L</kbd> или <kbd>Mod</kbd><kbd>Shift</kbd><kbd>←</kbd><kbd>↓</kbd><kbd>↑</kbd><kbd>→</kbd>                               | Сфокусироваться на мониторе по направлению                                                                                                                                     |
+| <kbd>Mod</kbd><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>H</kbd><kbd>J</kbd><kbd>K</kbd><kbd>L</kbd> или <kbd>Mod</kbd><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>←</kbd><kbd>↓</kbd><kbd>↑</kbd><kbd>→</kbd> | Переместить активную колонку на монитор по направлению                                                                                                                         |
+| <kbd>Mod</kbd><kbd>U</kbd> или <kbd>Mod</kbd><kbd>PageDown</kbd>                                                                                                                                | Переключиться на рабочее пространство ниже                                                                                                                                     |
+| <kbd>Mod</kbd><kbd>I</kbd> или <kbd>Mod</kbd><kbd>PageUp</kbd>                                                                                                                                  | Переключиться на рабочее пространство выше                                                                                                                                     |
+| <kbd>Mod</kbd><kbd>Ctrl</kbd><kbd>U</kbd> или <kbd>Mod</kbd><kbd>Ctrl</kbd><kbd>PageDown</kbd>                                                                                                  | Переместить активную колонку на рабочее пространство ниже                                                                                                                      |
+| <kbd>Mod</kbd><kbd>Ctrl</kbd><kbd>I</kbd> или <kbd>Mod</kbd><kbd>Ctrl</kbd><kbd>PageUp</kbd>                                                                                                    | Переместить активную колонку на рабочее пространство выше                                                                                                                      |
+| <kbd>Mod</kbd><kbd>1</kbd>–<kbd>9</kbd>                                                                                                                                                         | Переключиться на рабочее пространство по индексу                                                                                                                               |
+| <kbd>Mod</kbd><kbd>Ctrl</kbd><kbd>1</kbd>–<kbd>9</kbd>                                                                                                                                          | Переместить активную колонку на рабочее пространство по индексу                                                                                                                |
+| <kbd>Mod</kbd><kbd>Shift</kbd><kbd>U</kbd> или <kbd>Mod</kbd><kbd>Shift</kbd><kbd>PageDown</kbd>                                                                                                | Переместить активное рабочее пространство ниже                                                                                                                                 |
+| <kbd>Mod</kbd><kbd>Shift</kbd><kbd>I</kbd> или <kbd>Mod</kbd><kbd>Shift</kbd><kbd>PageUp</kbd>                                                                                                  | Переместить активное рабочее пространство выше                                                                                                                                 |
+| <kbd>Mod</kbd><kbd>,</kbd>                                                                                                                                                                      | Переместить окно справа в активную колонку ("поглотить" его)                                                                                                                   |
+| <kbd>Mod</kbd><kbd>.</kbd>                                                                                                                                                                      | Высвободить активное окно в отдельную колонку                                                                                                                                  |
+| <kbd>Mod</kbd><kbd>R</kbd>                                                                                                                                                                      | Переключить ширину активной колонки                                                                                                                                            |
+| <kbd>Mod</kbd><kbd>F</kbd>                                                                                                                                                                      | Максимизировать активную колонку                                                                                                                                               |
+| <kbd>Mod</kbd><kbd>C</kbd>                                                                                                                                                                      | Центрировать активную колонку                                                                                                                                                  |
+| <kbd>Mod</kbd><kbd>-</kbd>                                                                                                                                                                      | Расширить колонку на 10%                                                                                                                                                       |
+| <kbd>Mod</kbd><kbd>=</kbd>                                                                                                                                                                      | Сузить колонку на 10%                                                                                                                                                          |
+| <kbd>Mod</kbd><kbd>Shift</kbd><kbd>-</kbd>                                                                                                                                                      | Увеличить высоту окна на 10%                                                                                                                                                   |
+| <kbd>Mod</kbd><kbd>Shift</kbd><kbd>=</kbd>                                                                                                                                                      | Уменьшить высоту окна на 10%                                                                                                                                                   |
+| <kbd>Mod</kbd><kbd>Shift</kbd><kbd>F</kbd>                                                                                                                                                      | Переключить полноэкранный режим активного окна                                                                                                                                 |
+| <kbd>PrtSc</kbd>                                                                                                                                                                                | Снимок экрана. Можно выбрать область при помощи мыши, затем нажать <kbd>Space</kbd> или <kbd>Enter</kbd>, чтобы сделать снимок экрана, или нажать <kbd>Escape</kbd> для отмены |
+| <kbd>Alt</kbd><kbd>PrtSc</kbd>                                                                                                                                                                  | Сделать снимок активного окна, сохранить его в `~/Pictures/Screenshots/` и скопировать в буфер обмена                                                                          |
+| <kbd>Ctrl</kbd><kbd>PrtSc</kbd>                                                                                                                                                                 | Сделать снимок экрана активного монитора, сохранить его в `~/Pictures/Screenshots/` и скопировать в буфер обмена                                                               |
+| <kbd>Mod</kbd><kbd>Shift</kbd><kbd>E</kbd>                                                                                                                                                      | Выйти из niri                                                                                                                                                                  |
+
+## Сборка
+
+<Steps>
+
+1. Установите зависимости для вашего дистрибутива:
+
+    <Tabs>
+        <TabItem label="Ubuntu 23.10">
+            ```shell sudo apt-get install -y gcc clang libudev-dev libgbm-dev
+            libxkbcommon-dev libegl1-mesa-dev libwayland-dev libinput-dev
+            libdbus-1-dev libsystemd-dev libseat-dev libpipewire-0.3-dev
+            libpango1.0-dev ```
+        </TabItem>
+        <TabItem label="Fedora">
+            ```shell sudo dnf install gcc libudev-devel libgbm-devel
+            libxkbcommon-devel wayland-devel libinput-devel dbus-devel
+            systemd-devel libseat-devel pipewire-devel pango-devel
+            cairo-gobject-devel clang ```
+        </TabItem>
+    </Tabs>
+
+2. Установите [Rust](https://www.rust-lang.org/). Рекомендуется использовать [Rustup](https://rustup.rs/):
+
+    ```shell
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+    ```
+
+3. Соберите niri командой:
+
+    ```shell
+    cargo build --release
+    ```
+
+    Ознакомьтесь с опциями сборки в файле `Cargo.toml`. Например, так можно заменить интеграцию с systemd на интеграцию с dinit:
+
+    ```shell
+    cargo build --release --no-default-features --features dinit,dbus,xdp-gnome-screencast
+    ```
+
+    :::caution
+
+    НЕ собирайте niri с флагом `--all-features`!
+
+    Некоторые функции предназначены только для разработки. Например, одна из
+    функций позволяет собирать данные профилирования в буфер памяти, который
+    будет расти бесконечно, пока не закончится память.
+
+    :::
+
+</Steps>
+
+### Nix/NixOS
+
+У нас есть поддерживаемый сообществом NixOS Flake, который предоставляет devshell с необходимыми зависимостями. Используйте `nix build` для сборки niri, а затем запустите `./results/bin/niri`
+
+Если вы не используете NixOS, вам может понадобиться [NixGL](https://github.com/nix-community/nixGL) для запуска полученного бинарного файла:
+
+```shell
+nix run --impure github:guibou/nixGL -- ./results/bin/niri
+```
+
+### Сборка пакетов
+
+Рекомендуется упаковывать niri так, чтобы он запускался как отдельный сеанс
+рабочего стола. Для этого поместите файлы в нужные каталоги в соответствии с
+таблицей ниже:
+
+| Файл                             | Директория                       |
+| -------------------------------- | -------------------------------- |
+| `target/release/niri`            | `/usr/bin/`                      |
+| `resources/niri-session`         | `/usr/bin/`                      |
+| `resources/niri.desktop`         | `/usr/share/wayland-sessions/`   |
+| `resources/niri-portals.conf`    | `/usr/share/xdg-desktop-portal/` |
+| `resources/niri.service`         | `/usr/lib/systemd/user/`         |
+| `resources/niri-shutdown.target` | `/usr/lib/systemd/user/`         |
+
+<FileTree>
+
+-   usr
+    -   bin
+        -   niri
+        -   niri-session
+    -   lib
+        -   systemd
+            -   user
+                -   niri.service
+                -   niri-shutdown.target
+    -   share
+        -   wayland-sessions
+            -   niri.desktop
+        -   xdg-desktop-portal
+            -   niri-portals.conf
+
+</FileTree>
+
+Это позволит niri отображаться в GDM и других менеджерах дисплеев.
+
+### Установка вручную
+
+При установке непосредственно без пакета рекомендуемые места назначения файлов несколько отличаются. В этом случае поместите файлы в каталоги, указанные в таблице ниже. Они могут отличаться в зависимости от дистрибутива.
+
+| Файл                             | Директория                             |
+| -------------------------------- | -------------------------------------- |
+| `target/release/niri`            | `/usr/local/bin/`                      |
+| `resources/niri-session`         | `/usr/local/bin/`                      |
+| `resources/niri.desktop`         | `/usr/local/share/wayland-sessions/`   |
+| `resources/niri-portals.conf`    | `/usr/local/share/xdg-desktop-portal/` |
+| `resources/niri.service`         | `/etc/systemd/user/`                   |
+| `resources/niri-shutdown.target` | `/etc/systemd/user/`                   |
+
+<FileTree>
+
+-   etc
+    -   systemd
+        -   user
+            -   niri.service
+            -   niri-shutdown.target
+-   usr
+    -   local
+        -   bin
+            -   niri
+            -   niri-session
+        -   share
+            -   wayland-sessions
+                -   niri.desktop
+            -   xdg-desktop-portal
+                -   niri-portals.conf
+
+</FileTree>
