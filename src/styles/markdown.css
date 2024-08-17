@@ -6,3 +6,7 @@
     border: 1px solid var(--sl-color-gray-4);
     border-radius: 2px;
 }
+
+.icon-example {
+    display: inline-block !important;
+}
