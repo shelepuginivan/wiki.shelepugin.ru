@@ -1,0 +1,24 @@
+---
+title: 'Сжатие видео'
+description: 'Как сжать видео с помощью ffmpeg'
+---
+
+Уменьшить размер видео можно командой:
+
+```shell
+ffmpeg -i in.mp4 -vcodec libx265 -crf 28 out.mp4
+```
+
+:::caution[Обратите внимание]
+
+Если необходима совместимость с macOS (QuickTime), нужно сохранить кодек `H.265/HEVC`:
+
+```shell
+ffmpeg -i in.mp4 -c:v libx265 -preset fast -crf 28 -tag:v hvc1 -c:a eac3 -b:a 224k out.mp4
+```
+
+:::
+
+## См. также
+
+-   [\[GitHub Gist\] `ffmpeg-compress.mp4`](https://gist.github.com/lukehedger/277d136f68b028e22bed)
