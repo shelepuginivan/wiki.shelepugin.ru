@@ -59,6 +59,10 @@ export default defineConfig({
                             label: 'Использование',
                             autogenerate: { directory: 'niri/usage' },
                         },
+                        {
+                            label: 'Конфигурация',
+                            autogenerate: { directory: 'niri/configuration' },
+                        },
                     ],
                 },
                 {
