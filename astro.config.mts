@@ -45,6 +45,11 @@ export default defineConfig({
                             collapsed: true,
                             autogenerate: { directory: 'linux/sys' },
                         },
+                        {
+                            label: 'Сеть',
+                            collapsed: true,
+                            autogenerate: { directory: 'linux/network' },
+                        },
                     ],
                 },
                 {
