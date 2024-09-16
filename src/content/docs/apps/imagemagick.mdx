@@ -10,19 +10,20 @@ import blurBefore from './img/blur_before.webp'
 import dimAfter from './img/dim_after.webp'
 import dimBefore from './img/dim_before.webp'
 
-
 **ImageMagick** &mdash; кроссплатформенная утилита для обработки изображений.
 
 <details>
     <summary>Статус сборки пакетов</summary>
     <a href="https://repology.org/project/imagemagick/versions">
-        <img src="https://repology.org/badge/vertical-allrepos/imagemagick.svg" alt="Статус сборки пакетов"/>
+        <img
+            src="https://repology.org/badge/vertical-allrepos/imagemagick.svg"
+            alt="Статус сборки пакетов"
+        />
     </a>
 </details>
 
 На этой странице представлены примеры использования ImageMagick для изменения
 изображений.
-
 
 ## Размытие
 
@@ -40,7 +41,6 @@ magick input.png -blur <радиус>x<сигма> output.png
 Для бóльших изображений имеет смысл брать бóльшие значения.
 
 :::
-
 
 ### Пример
 
@@ -61,7 +61,6 @@ magick satori.png -blur 0x8 satori-blurred.png
     </TabItem>
 </Tabs>
 
-
 ## Затемнение
 
 Чтобы затемнить изображение с помощью `ImageMagick`:
@@ -69,7 +68,6 @@ magick satori.png -blur 0x8 satori-blurred.png
 ```shell
 magick input.png -fill black -colorize <процент>% output.png
 ```
-
 
 ### Пример
 

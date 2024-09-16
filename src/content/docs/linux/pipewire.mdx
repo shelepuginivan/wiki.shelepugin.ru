@@ -12,19 +12,21 @@ description: 'Установка и настройка PipeWire'
 рабочего стола, таких как GNOME или KDE.
 
 Для полноценной работы необходимо установить пакеты:
-- `pipewire` &mdash; Маршрутизатор и процессор аудио/видео с низкой задержкой
-- `pipewire-pulse` &mdash; Замена
-  [PulseAudio](https://wiki.archlinux.org/title/PulseAudio_(Русский)) для
-  работы с PipeWire
-- `wireplumber` &mdash; Реализация менеджера сеансов/политик для PipeWire
+
+-   `pipewire` &mdash; Маршрутизатор и процессор аудио/видео с низкой задержкой
+-   `pipewire-pulse` &mdash; Замена
+    [PulseAudio](<https://wiki.archlinux.org/title/PulseAudio_(Русский)>) для
+    работы с PipeWire
+-   `wireplumber` &mdash; Реализация менеджера сеансов/политик для PipeWire
 
 Я рекомендую установить дополнительные пакеты:
-- `easyeffects` &mdash; Расширенные аудио эффекты и управление PipeWire с
-  графическим интерфейсом
-- `lib32-pipewire` &mdash; Поддержка 32-битных приложений (например, игр,
-  запускаемый с помощью WINE)
-- `sof-firmware` &mdash; Микрокод "Sound Open Firmware" (например, для
-  поддержки встроенных динамиков)
+
+-   `easyeffects` &mdash; Расширенные аудио эффекты и управление PipeWire с
+    графическим интерфейсом
+-   `lib32-pipewire` &mdash; Поддержка 32-битных приложений (например, игр,
+    запускаемый с помощью WINE)
+-   `sof-firmware` &mdash; Микрокод "Sound Open Firmware" (например, для
+    поддержки встроенных динамиков)
 
 ```shell title="Минимальная установка"
 sudo pacman -S pipewire pipewire-pulse wireplumber

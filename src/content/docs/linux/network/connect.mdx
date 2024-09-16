@@ -30,22 +30,14 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components'
 1.  Определить доступные интерфейсы:
 
     <Tabs>
-        <TabItem label="Системы с ip">
-            ```shell
-            ip link show
-            ```
-        </TabItem>
-        <TabItem label="Системы с ifconfig">
-            ```shell
-            ifconfig -a
-            ```
-        </TabItem>
+        <TabItem label="Системы с ip">```shell ip link show ```</TabItem>
+        <TabItem label="Системы с ifconfig">```shell ifconfig -a ```</TabItem>
     </Tabs>
 
     Скорее всего, будет выведен список наподобие:
 
     ```
-    1: lo:  mtu 16436 qdisc noqueue state UNKNOWN 
+    1: lo:  mtu 16436 qdisc noqueue state UNKNOWN
         link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
     2: eth0:  mtu 1500 qdisc mq state UP qlen 1000
         link/ether b8:ac:6f:65:31:e5 brd ff:ff:ff:ff:ff:ff
@@ -67,13 +59,13 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components'
 
     Например, такая проблема встречается при установке Void Linux (я тоже с ней
     сталкивался).
-    
+
     :::
 
 2.  Включите (иногда говорят "поднимите") соответствующий интерфейс. См.
     предыдущий пункт для определения нужного интерфейса.
 
-    <Tabs>
+        <Tabs>
         <TabItem label="Системы с ip">
             ```shell
             ip link set <ваш интерфейс> up
@@ -84,9 +76,10 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components'
             ifconfig <ваш интерфейс> up
             ```
         </TabItem>
+
     </Tabs>
 
-    В обеих командах замените `<ваш интерфейс>` на нужный интерфейс (см. пункт 1).
+        В обеих командах замените `<ваш интерфейс>` на нужный интерфейс (см. пункт 1).
 
 3.  Попробуйте подключиться к сети:
 
