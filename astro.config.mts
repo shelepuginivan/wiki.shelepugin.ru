@@ -38,32 +38,11 @@ export default defineConfig({
             sidebar: [
                 {
                     label: 'Linux',
-                    collapsed: true,
-                    items: [
-                        {
-                            label: 'Система',
-                            collapsed: true,
-                            autogenerate: { directory: 'linux/sys' },
-                        },
-                        {
-                            label: 'Сеть',
-                            collapsed: true,
-                            autogenerate: { directory: 'linux/network' },
-                        },
-                    ],
+                    autogenerate: { directory: 'linux' },
                 },
                 {
                     label: 'Приложения и утилиты',
-                    items: [
-                        {
-                            label: 'ffmpeg',
-                            link: '/apps/ffmpeg',
-                        },
-                        {
-                            label: 'ImageMagick',
-                            link: '/apps/imagemagick',
-                        },
-                    ],
+                    autogenerate: { directory: 'apps' },
                 },
             ],
         }),
