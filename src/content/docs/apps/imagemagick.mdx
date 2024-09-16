@@ -1,0 +1,91 @@
+---
+title: 'ImageMagick'
+description: 'Обработка изображений с ImageMagick. Примеры работы с изображениями.'
+---
+
+import { Image } from 'astro:assets'
+import { Tabs, TabItem } from '@astrojs/starlight/components'
+import blurAfter from './img/blur_after.webp'
+import blurBefore from './img/blur_before.webp'
+import dimAfter from './img/dim_after.webp'
+import dimBefore from './img/dim_before.webp'
+
+
+**ImageMagick** &mdash; кроссплатформенная утилита для обработки изображений.
+
+<details>
+    <summary>Статус сборки пакетов</summary>
+    <a href="https://repology.org/project/imagemagick/versions">
+        <img src="https://repology.org/badge/vertical-allrepos/imagemagick.svg" alt="Статус сборки пакетов"/>
+    </a>
+</details>
+
+На этой странице представлены примеры использования ImageMagick для изменения
+изображений.
+
+
+## Размытие
+
+Чтобы размыть изображение с помощью `ImageMagick`:
+
+```shell
+magick input.png -blur <радиус>x<сигма> output.png
+```
+
+:::tip
+
+**Радиус** в большинстве случаев равен 0.
+
+**Сигма** может зависить от размера изображения.
+Для бóльших изображений имеет смысл брать бóльшие значения.
+
+:::
+
+
+### Пример
+
+```shell
+magick satori.png -blur 0x8 satori-blurred.png
+```
+
+<Tabs>
+    <TabItem label="До (satori.png)">
+        <figure>
+            <Image src={blurBefore} alt="До" />
+        </figure>
+    </TabItem>
+    <TabItem label="После (satori-blurred.png)">
+        <figure>
+            <Image src={blurAfter} alt="После" />
+        </figure>
+    </TabItem>
+</Tabs>
+
+
+## Затемнение
+
+Чтобы затемнить изображение с помощью `ImageMagick`:
+
+```shell
+magick input.png -fill black -colorize <процент>% output.png
+```
+
+
+### Пример
+
+```shell
+magick forest.png -fill black -colorize 60% forest-dimmed.png
+```
+
+<Tabs>
+    <TabItem label="До (forest.png)">
+        <figure>
+            <Image src={dimBefore} alt="До" />
+        </figure>
+    </TabItem>
+    <TabItem label="После (forest-dimmed.png)">
+        <figure>
+            <Image src={dimAfter} alt="После" />
+        </figure>
+    </TabItem>
+</Tabs>

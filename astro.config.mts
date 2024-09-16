@@ -72,7 +72,6 @@ export default defineConfig({
                 },
                 {
                     label: 'Приложения и утилиты',
-                    collapsed: true,
                     items: [
                         {
                             label: 'ffmpeg',
@@ -80,8 +79,7 @@ export default defineConfig({
                         },
                         {
                             label: 'ImageMagick',
-                            collapsed: true,
-                            autogenerate: { directory: 'apps/imagemagick' },
+                            link: '/apps/imagemagick',
                         },
                     ],
                 },
