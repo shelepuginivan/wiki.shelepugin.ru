@@ -76,8 +76,7 @@ export default defineConfig({
                     items: [
                         {
                             label: 'ffmpeg',
-                            collapsed: true,
-                            autogenerate: { directory: 'apps/ffmpeg' },
+                            link: '/apps/ffmpeg',
                         },
                         {
                             label: 'ImageMagick',

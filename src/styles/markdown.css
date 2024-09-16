@@ -10,3 +10,13 @@
 .icon-example {
     display: inline-block !important;
 }
+
+.sl-markdown-content figure {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sl-markdown-content figure figcaption {
+    font-style: italic;
+}
