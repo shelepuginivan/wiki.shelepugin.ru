@@ -29,6 +29,8 @@ export default defineConfig({
 
             pagination: false,
 
+            lastUpdated: true,
+
             customCss: ['./src/styles/custom.css', './src/styles/markdown.css'],
 
             expressiveCode: {
