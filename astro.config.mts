@@ -53,24 +53,6 @@ export default defineConfig({
                     ],
                 },
                 {
-                    label: 'Niri',
-                    collapsed: true,
-                    items: [
-                        {
-                            label: 'Неофициальный перевод niri wiki',
-                            link: '/niri/home',
-                        },
-                        {
-                            label: 'Использование',
-                            autogenerate: { directory: 'niri/usage' },
-                        },
-                        {
-                            label: 'Конфигурация',
-                            autogenerate: { directory: 'niri/configuration' },
-                        },
-                    ],
-                },
-                {
                     label: 'Приложения и утилиты',
                     items: [
                         {
