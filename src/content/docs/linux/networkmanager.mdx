@@ -1,8 +1,15 @@
 ---
-title: 'Подключение к сети'
+title: 'NetworkManager'
 ---
 
 import { Steps, Tabs, TabItem } from '@astrojs/starlight/components'
+
+[NetworkManager](https://networkmanager.dev/) &mdash; это программа для
+обнаружения и настройки систем для автоматического подключения к сетям. Функции
+NetworkManager могут быть полезны как для беспроводных, так и для проводных
+сетей.
+
+## Подключение к сети
 
 Проблема с подключением к сети периодически возникает после установки системы.
 Например, недавно мы настраивали подключение после установки NixOS.
@@ -23,15 +30,23 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components'
 Эта проблема, в основном, характерна для беспроводных подключений.
 Проводной Интернет, как правило, "просто работает".
 
-## Пример
+### Пример
 
 <Steps>
 
 1.  Определить доступные интерфейсы:
 
     <Tabs>
-        <TabItem label="Системы с ip">```shell ip link show ```</TabItem>
-        <TabItem label="Системы с ifconfig">```shell ifconfig -a ```</TabItem>
+        <TabItem label="Системы с ip">
+            ```shell
+            ip link show
+            ```
+        </TabItem>
+        <TabItem label="Системы с ifconfig">
+            ```shell
+            ifconfig -a
+            ```
+        </TabItem>
     </Tabs>
 
     Скорее всего, будет выведен список наподобие:
@@ -98,7 +113,7 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components'
 
     Должны выводиться сообщения об обмене пакетами, например:
 
-    ```
+    ```shell
     64 bytes from 188.114.97.0: icmp_seq=1 ttl=56 time=9.67 ms
     64 bytes from 188.114.97.0: icmp_seq=2 ttl=56 time=11.9 ms
     64 bytes from 188.114.97.0: icmp_seq=3 ttl=56 time=11.8 ms
