@@ -1,0 +1,107 @@
+---
+title: 'Принтеры и сканеры'
+description: 'Как настроить работу принтеров и сканеров на Linux.'
+sidebar:
+    order: 2
+---
+
+import { Badge, Steps } from '@astrojs/starlight/components';
+
+Настройка Linux для работы с принтерами и сканерами.
+
+## Принтеры (CUPS)
+
+[CUPS](https://openprinting.github.io/cups/) (Common Unix Printing System) &mdash; это открытая система для печати в Linux.
+
+### Установка
+
+Пакет `cups` доступен в большинстве репозиториев.
+
+<details>
+    <summary>Статус сборки пакетов</summary>
+    <a href="https://repology.org/project/cups/versions">
+        <img src="https://repology.org/badge/vertical-allrepos/cups.svg" alt="Статус сборки пакетов"/>
+    </a>
+</details>
+
+```shell
+sudo pacman -S cups
+sudo systemctl enable cups
+```
+
+### Добавление принтеров
+
+<Steps>
+
+1. Открыть http://localhost:631
+2. Перейти на вкладку "Administration". Потребуется ввести пароль
+3. Выбрать нужную опцию ("Local Printers", "Discovered Network Printers", "Other Network Printers")
+4. Следовать инструкции
+
+</Steps>
+
+Также для работы понадобится установить драйвера. Более подробную информацию см. в:
+
+- [\[ArchWiki\] Cups/Драйверы принтеров](https://wiki.archlinux.org/title/CUPS_(Русский)#Драйверы_принтеров)
+- [\[ArchWiki\] Cups/Printer-specific problems](https://wiki.archlinux.org/title/CUPS_(Русский)/Printer-specific_problems_(Русский))
+
+## Сканеры (SANE)
+
+[SANE](https://gitlab.com/sane-project) (Scanner Access Now Easy) &mdash; API,
+обеспечивающий стандартизированный доступ к любому оборудованию для
+сканирования растровых изображений.
+
+### Установка
+
+Пакет `cups` доступен в большинстве репозиториев. При этом [графические приложения](#фронтенды) (фронтенды), как правило, требуют пакет в качестве зависимости, так что его явная установка часто не является обязательной
+
+<details>
+    <summary>Статус сборки пакетов</summary>
+    <a href="https://repology.org/project/sane-backends/versions">
+        <img src="https://repology.org/badge/vertical-allrepos/sane-backends.svg" alt="Статус сборки пакетов"/>
+    </a>
+</details>
+
+```shell
+sudo pacman -S sane
+```
+
+### Фронтенды
+
+Для SANE существует множество фронтендов. Наиболее популярные приведены ниже:
+
+1.  [Simple Scan](https://apps.gnome.org/ru/SimpleScan/) &mdash; Упрощенный
+    графический интерфейс, который должен быть проще в использовании и лучше
+    интегрирован в рабочий стол GNOME, чем XSane. Является частью
+    [GNOME](https://www.gnome.org/). <Badge variant="tip" text="Я использую"/>
+
+    ```shell
+    sudo pacman -S simple-scan
+    ```
+
+2.  [Skanlite](https://apps.kde.org/ru/skanlite/) &mdash; Простое приложение
+    для сканирования изображений, которое не делает ничего, кроме сканирования и
+    сохранения изображений, основанное на бэкенде KSane. Часть
+    [KDE](https://kde.org/ru/).
+
+    ```shell
+    sudo pacman -S scanlite
+    ```
+
+3.  [Skanpage](https://apps.kde.org/ru/skanpage/) &mdash; Приложение для
+    сканирования и сохранения документов и изображений, состоящих из одной или
+    нескольких страниц.
+
+    ```shell
+    sudo pacman -S scanpage
+    ```
+
+4.  [Scantailor](https://github.com/4lex4/scantailor-advanced) &mdash;
+    Приложение для сканирования, которое работает с проектами и позволяет
+    редактировать их в процессе сканирования.
+    
+    ```shell
+    sudo pacman -S scantailor-advanced
+    ```
+
+
