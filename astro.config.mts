@@ -39,11 +39,11 @@ export default defineConfig({
 
             sidebar: [
                 {
-                    label: 'Linux',
+                    label: '🐧 Linux',
                     autogenerate: { directory: 'linux' },
                 },
                 {
-                    label: 'Приложения и утилиты',
+                    label: '⚙️ Приложения и утилиты',
                     autogenerate: { directory: 'apps' },
                 },
                 {
