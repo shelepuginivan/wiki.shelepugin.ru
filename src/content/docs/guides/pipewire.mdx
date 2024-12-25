@@ -14,6 +14,7 @@ description: 'Установка и настройка PipeWire'
 Для полноценной работы необходимо установить пакеты:
 
 -   `pipewire` &mdash; Маршрутизатор и процессор аудио/видео с низкой задержкой
+-   `pipewire-alsa` &mdash; Замена [ALSA](https://wiki.archlinux.org/title/Advanced_Linux_Sound_Architecture) для работы с PipeWire
 -   `pipewire-pulse` &mdash; Замена
     [PulseAudio](<https://wiki.archlinux.org/title/PulseAudio_(Русский)>) для
     работы с PipeWire
@@ -29,11 +30,11 @@ description: 'Установка и настройка PipeWire'
     поддержки встроенных динамиков)
 
 ```shell title="Минимальная установка"
-sudo pacman -S pipewire pipewire-pulse wireplumber
+sudo pacman -S pipewire pipewire-alsa pipewire-pulse wireplumber
 ```
 
 ```shell title="Расширенная установка"
-sudo pacman -S easyeffects lib32-pipewire pipewire pipewire-pulse sof-firmware wireplumber
+sudo pacman -S easyeffects lib32-pipewire pipewire pipewire-alsa pipewire-pulse sof-firmware wireplumber
 ```
 
 ## Управление звуком
