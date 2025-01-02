@@ -3,6 +3,9 @@ title: 'PipeWire'
 description: 'Установка и настройка PipeWire'
 ---
 
+import { Steps } from '@astrojs/starlight/components'
+
+
 [**PipeWire**](https://pipewire.org/) &mdash; это современный низкоуровневый
 мультимедийный фреймворк.
 
@@ -22,10 +25,8 @@ description: 'Установка и настройка PipeWire'
 
 Я рекомендую установить дополнительные пакеты:
 
--   `easyeffects` &mdash; Расширенные аудио эффекты и управление PipeWire с
-    графическим интерфейсом
--   `lib32-pipewire` &mdash; Поддержка 32-битных приложений (например, игр,
-    запускаемый с помощью WINE)
+-   `pavucontrol` &mdash; Графический интерфейс для управления звуком
+    (изначально создавался для PulseAudio, но работает с PipeWire).
 -   `sof-firmware` &mdash; Микрокод "Sound Open Firmware" (например, для
     поддержки встроенных динамиков)
 
@@ -34,7 +35,7 @@ sudo pacman -S pipewire pipewire-alsa pipewire-pulse wireplumber
 ```
 
 ```shell title="Расширенная установка"
-sudo pacman -S easyeffects lib32-pipewire pipewire pipewire-alsa pipewire-pulse sof-firmware wireplumber
+sudo pacman -S pavucontrol pipewire pipewire-alsa pipewire-pulse sof-firmware wireplumber
 ```
 
 ## Управление звуком
@@ -53,3 +54,36 @@ wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05-
 ```shell title="Переключить звук (mute/unmute)"
 wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
 ```
+
+## Устранение неполадок
+
+### Устройство, подключённое по Bluetooth, не отображается среди устройств вывода PulseAudio
+
+Если устройство подключено по Bluetooth, но не отображается как выходное
+устройство (например, в `pavucontrol`), следующие шаги могут решить проблему.
+
+<Steps>
+
+1.  Убедиться в том, что устройство подключено (замените `XX:XX:XX:XX:XX:XX` на
+    фактический MAC-адрес):
+    
+    ```shell
+    bluetoothctl connect XX:XX:XX:XX:XX:XX
+    ```
+
+    Вывод должен заканчиваться строкой наподобие `Connection successful`.
+
+2.  Проверить, что устройство не отображается среди устройств вывода:
+    
+    ```shell
+    pactl list short sinks | grep bluez
+    ```
+
+3.  Добавьте следующую политику в файл `/etc/bluetooth/main.conf`:
+
+    ```shell frame="none"
+    [General]
+    Enable=Control,Gateway,Headset,Media,Sink,Socket,Source
+    ```
+
+</Steps> 
