@@ -27,23 +27,47 @@ import { Badge, Steps } from '@astrojs/starlight/components';
 ```shell
 sudo pacman -S cups
 sudo systemctl enable cups
+sudo systemctl start cups
 ```
+
+Для работы CUPS требуется установить [GhostScript](https://www.ghostscript.com/):
+
+```shell
+sudo pacman -S ghostscript
+```
+
+Для добавления принтера, в зависимости от модели, необходимо установить
+соответствующий драйвер. Более подробную информацию см. в
+
+- [\[ArchWiki\] Cups/Драйверы принтеров](https://wiki.archlinux.org/title/CUPS_(Русский)#Драйверы_принтеров)
+- [\[ArchWiki\] Cups/Printer-specific problems](https://wiki.archlinux.org/title/CUPS_(Русский)/Printer-specific_problems_(Русский))
 
 ### Добавление принтеров
 
 <Steps>
 
 1. Открыть http://localhost:631
-2. Перейти на вкладку "Administration". Потребуется ввести пароль
+2. Перейти на вкладку ["Administration"](http://localhost:631/admin). Потребуется ввести пароль
 3. Выбрать нужную опцию ("Local Printers", "Discovered Network Printers", "Other Network Printers")
 4. Следовать инструкции
 
 </Steps>
 
-Также для работы понадобится установить драйвера. Более подробную информацию см. в:
+### Проверка принтера
 
-- [\[ArchWiki\] Cups/Драйверы принтеров](https://wiki.archlinux.org/title/CUPS_(Русский)#Драйверы_принтеров)
-- [\[ArchWiki\] Cups/Printer-specific problems](https://wiki.archlinux.org/title/CUPS_(Русский)/Printer-specific_problems_(Русский))
+Чтобы проверить, что принтер подключён корректно, проделайте следующие шаги:
+
+<Steps>
+
+1. Перейти на вкладку ["Printers"](http://localhost:631/printers)
+2. Выбрать принтер, который необходимо проверить
+3. В выпадающем меню "Maintenance" выбрать опцию "Print test page"
+   ![Тестовая страница](./img/cups-test-page.png)
+
+</Steps>
+
+Если принтер подключён корректно, на нём будет напечатана тестовая страница.
+
 
 ## Сканеры (SANE)
 
