@@ -6,6 +6,7 @@ sidebar:
 ---
 
 import { Badge, Steps } from '@astrojs/starlight/components';
+import Repology from '../../../components/Repology.astro'
 
 Настройка Linux для работы с принтерами и сканерами.
 
@@ -17,12 +18,7 @@ import { Badge, Steps } from '@astrojs/starlight/components';
 
 Пакет `cups` доступен в большинстве репозиториев.
 
-<details>
-    <summary>Статус сборки пакетов</summary>
-    <a href="https://repology.org/project/cups/versions">
-        <img src="https://repology.org/badge/vertical-allrepos/cups.svg" alt="Статус сборки пакетов"/>
-    </a>
-</details>
+<Repology pkg="cups" />
 
 ```shell
 sudo pacman -S cups
@@ -81,12 +77,7 @@ sudo pacman -S ghostscript
 приложения](#фронтенды) (фронтенды), как правило, требуют пакет в качестве
 зависимости, так что его явная установка часто не является обязательной.
 
-<details>
-    <summary>Статус сборки пакетов</summary>
-    <a href="https://repology.org/project/sane-backends/versions">
-        <img src="https://repology.org/badge/vertical-allrepos/sane-backends.svg" alt="Статус сборки пакетов"/>
-    </a>
-</details>
+<Repology pkg="sane-backends" />
 
 ```shell
 sudo pacman -S sane
@@ -129,5 +120,3 @@ sudo pacman -S sane
     ```shell
     sudo pacman -S scantailor-advanced
     ```
-
-

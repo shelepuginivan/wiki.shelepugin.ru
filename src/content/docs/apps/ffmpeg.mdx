@@ -3,6 +3,8 @@ title: 'ffmpeg'
 description: 'Работа с программой ffmpeg. Примеры использования ffmpeg для обработки видео.'
 ---
 
+import Repology from '../../../components/Repology.astro'
+
 <figure>
     ![Логотип ffmpeg](./logos/ffmpeg.svg)
     <figcaption>Логотип ffmpeg</figcaption>
@@ -13,15 +15,13 @@ description: 'Работа с программой ffmpeg. Примеры исп
 `ffmpeg` &mdash; кроссплатформенный инструмент для обработки видео- и
 аудиофайлов.
 
-<details>
-    <summary>Статус сборки пакетов</summary>
-    <a href="https://repology.org/project/ffmpeg/versions">
-        <img
-            src="https://repology.org/badge/vertical-allrepos/ffmpeg.svg"
-            alt="Статус сборки пакетов"
-        />
-    </a>
-</details>
+Установите пакет `ffmpeg`:
+
+```shell
+sudo pacman -S ffmpeg
+```
+
+<Repology pkg="ffmpeg" />
 
 На этой странице представлены примеры использования `ffmpeg` для пременения тех
 или иных эффектов.

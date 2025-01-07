@@ -5,6 +5,8 @@ description: 'Обработка изображений с ImageMagick. Прим
 
 import { Image } from 'astro:assets'
 import { Tabs, TabItem } from '@astrojs/starlight/components'
+import Repology from '../../../components/Repology.astro'
+
 import blurAfter from './img/blur_after.webp'
 import blurBefore from './img/blur_before.webp'
 import dimAfter from './img/dim_after.webp'
@@ -12,15 +14,13 @@ import dimBefore from './img/dim_before.webp'
 
 **ImageMagick** &mdash; кроссплатформенная утилита для обработки изображений.
 
-<details>
-    <summary>Статус сборки пакетов</summary>
-    <a href="https://repology.org/project/imagemagick/versions">
-        <img
-            src="https://repology.org/badge/vertical-allrepos/imagemagick.svg"
-            alt="Статус сборки пакетов"
-        />
-    </a>
-</details>
+Установите пакет `imagemagick`:
+
+```shell
+sudo pacman -S imagemagick
+```
+
+<Repology pkg="imagemagick" />
 
 На этой странице представлены примеры использования ImageMagick для изменения
 изображений.
