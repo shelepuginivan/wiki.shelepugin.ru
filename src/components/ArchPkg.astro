@@ -1,0 +1,17 @@
+---
+interface Props {
+    pkg: string
+    repo?: string
+    arch?: string
+}
+
+const { pkg, repo = "extra", arch = "x86_64" } = Astro.props
+
+const link = `https://archlinux.org/packages/${repo}/${arch}/${pkg}/`
+const aurLink = `https://aur.archlinux.org/packages/${pkg}`
+---
+
+{ repo !== "aur"
+    ? <a href={link} target="_blank"><code>{pkg}</code></a>
+    : <a href={aurLink} target="_blank"><code>{pkg}</code></a><sup>AUR</sup>
+}
