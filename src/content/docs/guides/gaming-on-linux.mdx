@@ -4,6 +4,7 @@ description: 'Настройка Arch Linux для игр: wine, Lutris, Cage'
 ---
 
 import { FileTree, Steps } from '@astrojs/starlight/components'
+import ArchPkg from '../../../components/ArchPkg.astro'
 
 Гайд по настройке Arch Linux для игр.
 
@@ -48,7 +49,9 @@ sudo pacman -Syu
 sudo pacman -S --needed lutris wine wine-gecko wine-mono winetricks giflib lib32-giflib libpng lib32-libpng libldap lib32-libldap gnutls lib32-gnutls openal lib32-openal v4l-utils lib32-v4l-utils libx11 lib32-libx11 ncurses lib32-ncurses libgcrypt lib32-libgcrypt libxcomposite lib32-libxcomposite dqlite lib32-sqlite libxinerama lib32-libxinerama gdk-pixbuf2 lib32-gdk-pixbuf2 gcc-libs lib32-gcc-libs ocl-icd lib32-ocl-icd libxslt lib32-libxslt libva lib32-libva gst-plugins-base lib32-gst-plugins-base libgpg-error lib32-libgpg-error libjpeg-turbo lib32-libjpeg-turbo libglvnd lib32-libglvnd libva-mesa-driver lib32-libva-mesa-driver vkd3d lib32-vkd3d lib32-vulkan-icd-loader vulkan-icd-loader glad psmisc fluidsynth libunwind vulkan-tools vulkan-headers
 ```
 
-Для систем с PipeWire понадобятся пакеты `lib32-libpipewire` и `lib32-pipewire` &mdash; для работы звука:
+Для систем с PipeWire понадобятся пакеты
+<ArchPkg pkg="lib32-libpipewire" repo="multilib" /> и
+<ArchPkg pkg="lib32-pipewire" repo="multilib" /> &mdash; для работы звука:
 
 ```shell
 sudo pacman -S lib32-libpipewire lib32-pipewire
@@ -63,20 +66,22 @@ sudo pacman -S amdvlk lib32-amdvlk
 
 ## 3. Для систем с Wayland
 
-При запуске игр с помощью wine используется XWayland, поэтому в некоторых Wayland-композиторах потребуется использовать дополнительное ПО:
+При запуске игр с помощью wine используется XWayland, поэтому в некоторых
+Wayland-композиторах потребуется использовать дополнительное ПО:
 
 -   [Cage](https://www.hjdskes.nl/projects/cage/)
 -   [gamescope](https://github.com/ValveSoftware/gamescope)
--   [`xwayland-satellite`](https://github.com/Supreeeme/xwayland-satellite)
--   [`xwayland-run`](https://gitlab.freedesktop.org/ofourdan/xwayland-run)
+-   [xwayland-satellite](https://github.com/Supreeeme/xwayland-satellite)
+-   [xwayland-run](https://gitlab.freedesktop.org/ofourdan/xwayland-run)
 
-В этом гайде используются Cage и gamescope, так как на моей системе они работают лучше всего.
+В этом гайде используются Cage и gamescope, так как на моей системе они
+работают лучше всего.
 
 ### Cage
 
 <Steps>
 
-1.  Установите пакет `cage`:
+1.  Установите пакет <ArchPkg pkg="cage" />:
 
     ```shell
     sudo pacman -S cage
@@ -143,7 +148,7 @@ gamescope позволяет указать больше опций для ко�
 
 <Steps>
 
-1.  Установите пакет `gamescope`:
+1.  Установите пакет <ArchPkg pkg="gamescope" />:
 
     ```shell
     sudo pacman -S gamescope
