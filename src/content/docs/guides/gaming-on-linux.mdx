@@ -57,6 +57,13 @@ sudo pacman -S --needed lutris wine wine-gecko wine-mono winetricks giflib lib32
 sudo pacman -S lib32-libpipewire lib32-pipewire
 ```
 
+Звук в некоторых играх не работает (по крайней мере у меня) и с этими библиотеками.
+Проблему решает установка <ArchPkg pkg="lib32-libpulse" repo="multilib" />:
+
+```shell
+sudo pacman -S lib32-libpulse
+```
+
 Если используется видеокарта от AMD:
 
 ```shell
