@@ -67,7 +67,13 @@ sudo pacman -S lib32-libpulse
 Если используется видеокарта от AMD:
 
 ```shell
-sudo pacman -S amdvlk lib32-amdvlk
+sudo pacman -S amdvlk lib32-amdvlk vulkan-radeon lib32-vulkan-radeon
+```
+
+В некоторых играх могут некорректно отображаться шрифты. Исправить проблему помогает установка шрифтов в `winetricks`:
+
+```shell
+winetricks corefonts
 ```
 
 
