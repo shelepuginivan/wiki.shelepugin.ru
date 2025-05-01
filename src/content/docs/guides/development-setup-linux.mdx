@@ -1,0 +1,274 @@
+---
+title: 'Настройка Linux для разработки'
+description: 'Настройка Arch Linux для разработки на различных языках программирования. Установка необходимых пакетов и утилит'
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components'
+import ArchPkg from '../../../components/ArchPkg.astro'
+import Repology from '../../../components/Repology.astro'
+
+Гайд по настройке Arch Linux для разработки.
+
+Если вы используете другой дистрибутив (который не базируется на Arch Linux),
+используйте соответствующий пакетный менеджер. Для каждого пакета приведён
+статус сборки, где можно узнать название необходимого пакета в репозиториях
+вашего дистрибутива.
+
+В этом документе **не приведены** инструкции по настройке LSP-серверов в
+Neovim. См.
+[nvim-lspconfig](https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md)
+(если вы используете его напрямую) или инструкции по настройке LSP-серверов
+вашего дистрибутива.
+
+**Навигация**
+
+- [Go (Golang)](#go-golang)
+- [Node.js](#nodejs)
+- [Python](#python)
+- [Rust](#rust)
+
+## Go (Golang)
+
+### Компилятор
+
+Проще всего установить компилятор Go из репозиториев.
+Это позволит легко обновлять его с выходом новых версий.
+
+Установите пакет <ArchPkg pkg="go" />:
+
+```shell
+sudo pacman -S go
+```
+
+<Repology pkg="go" />
+
+Также можно скачать архив с [go.dev](https://go.dev/dl/) и распаковать его в
+`/usr/local`.
+
+```shell /X.X.X.OS-arch/
+curl -o go.tar.gz "https://go.dev/dl/goX.X.X.OS-arch.tar.gz"
+
+# Полностью удалить предыдущую установку Go.
+sudo rm -rf /usr/local/go
+
+# Установить скачанную версию из архива.
+sudo tar -C /usr/local -xzf go.tar.gz
+```
+
+Замените `X.X.X.OS-arch` на необходимую версию, ОС и архитектуру, например,
+`1.23.4.linux-amd64`.
+
+При установке из архива рекомендуется создать символьную ссылку в
+`/usr/local/bin`, чтобы можно было запускать компилятор командой `go`:
+
+```shell
+sudo ln -s /usr/local/go/bin/go /usr/local/bin/go
+```
+
+### Утилиты
+
+##### 1. `golangci-lint` &mdash; линтеры для языка Go
+
+Установите пакет <ArchPkg pkg="golangci-lint" repo="aur" />:
+
+<Tabs syncKey="aur-helper">
+    <TabItem label="paru">
+        ```shell
+        paru -S golangci-lint
+        ```
+    </TabItem>
+    <TabItem label="yay">
+        ```shell
+        yay -S golangci-lint
+        ```
+    </TabItem>
+</Tabs>
+
+<Repology pkg="golangci-lint" />
+
+Или установите при помощи `go install`:
+
+```shell /X.X.X/
+go install github.com/golangci/golangci-lint/cmd/golangci-lint@vX.X.X
+```
+
+Замените `X.X.X` на нужную версию, например, `1.63.4`.
+
+##### 2. `gopls` &mdash; LSP сервер для языка Go
+
+Установите пакет <ArchPkg pkg="gopls" />:
+
+```shell
+sudo pacman -S gopls
+```
+
+<Repology pkg="gopls" />
+
+Или установите при помощи `go install`
+
+```shell /X.X.X/
+go install golang.org/x/tools/gopls@vX.X.X
+```
+
+Замените `X.X.X` на нужную версию, например, `0.17.1`.
+
+## Node.js
+
+### Node Version Manager
+
+Рекомендованный способ установки -- при помощи утилиты
+[Node Version Manager](https://github.com/nvm-sh/nvm).
+Это обеспечивает возможность быстро менять версии и решает проблему с
+глобальной установкой пакетов (`EACCES permission denied`).
+
+Установите пакет <ArchPkg pkg="nvm" arch="any" />:
+
+```sh
+sudo pacman -S nvm
+```
+
+<Repology pkg="nvm" />
+
+В качестве альтернативы, установите `nvm` при помощи скрипта:
+
+```sh
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+```
+
+Далее, добавьте в файл профиля вашей оболочки (`.bashrc`, `.bash_profile`,
+`.zshrc` и т.п.):
+
+```sh
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+```
+
+Установите последнюю версию Node.js:
+
+```sh
+nvm install node
+```
+
+### Утилиты
+
+#### 1. `typescript-language-server` -- LSP-сервер
+
+Установите пакет <ArchPkg pkg="typescript-language-server" arch="any" />:
+
+```sh
+sudo pacman -S typescript-language-server
+```
+
+<Repology pkg="typescript-language-server" />
+
+Или установите как глобальный npm-пакет. Обратите внимание, что в этом случае
+он будет доступен только для текущей версии Node.js:
+
+```sh
+npm i -g typescript-language-server
+```
+
+## Python
+
+### Интерпретатор
+
+Установите пакет <ArchPkg pkg="python" repo="core" />.
+Зачастую он устанавливливается вместе с системой или установлен по умолчанию.
+
+```shell
+sudo pacman -S python
+```
+
+### Пакетные менеджеры `pip` и `pipx`
+
+Установите пакет <ArchPkg pkg="python-pip" />:
+
+```shell
+sudo pacman -S python-pip
+```
+
+<Repology pkg="pip" />
+
+:::note
+
+Установка пакетного менеджера `pip` не является обязательной при использовании
+виртуальных окружений:
+
+```shell
+python -m venv venv
+source venv/bin/activate
+
+which pip    # /путь/до/проекта/venv/bin/pip
+```
+
+:::
+
+`pipx`, в свою очередь, позволяет устанавливать пакеты Python из
+[Python Package Index](https://pypi.org/) в изолированных окружениях.
+Это полезно для установки пакетов, которых нет в репозиториях дистрибутива.
+В отличие от `pip`, пакеты устанавливаются в домашнюю директорию.
+
+Установите пакет <ArchPkg pkg="python-pipx" arch="any" />:
+
+```shell
+sudo pacman -S python-pipx
+```
+
+<Repology pkg="pipx" />
+
+### Утилиты
+
+##### 1. `pyright` &mdash; LSP сервер для языка Python
+
+Установите пакет <ArchPkg pkg="pyright" arch="any" />:
+
+```shell
+sudo pacman -S pyright
+```
+
+<Repology pkg="pyright" />
+
+## Rust
+
+### Установщик rustup
+
+Рекомендованный способ установки &mdash; при помощи [rustup](https://rustup.rs/).
+
+Установите пакет <ArchPkg pkg="rustup" />:
+
+```shell
+sudo pacman -S rustup
+```
+
+<Repology pkg="rustup" />
+
+Или установите при помощи скрипта:
+
+```shell
+curl -fsSL https://sh.rustup.rs | sh
+```
+
+После установки необходимо задать инструменты (toolchain) по умолчанию:
+
+```shell
+rustup default stable
+```
+
+### Утилиты
+
+##### 1. `rust-analyzer` &mdash; LSP сервер для языка Rust
+
+Установите пакет <ArchPkg pkg="rust-analyzer" />:
+
+```shell
+sudo pacman -S rust-analyzer
+```
+
+<Repology pkg="rust-analyzer" />
+
+Или установите из архива:
+
+```shell
+curl -fsSL "https://github.com/rust-lang/rust-analyzer/releases/latest/download/rust-analyzer-x86_64-unknown-linux-gnu.gz" | sudo gunzip -c - > /usr/local/bin/rust-analyzer
+sudo chmod +x /usr/local/bin/rust-analyzer
+```
