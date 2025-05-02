@@ -46,10 +46,6 @@ export default defineConfig({
                     label: '⚙️ Приложения и утилиты',
                     autogenerate: { directory: 'apps' },
                 },
-                {
-                    label: '✨ Гайды',
-                    autogenerate: { directory: 'guides' },
-                },
             ],
         }),
     ],
