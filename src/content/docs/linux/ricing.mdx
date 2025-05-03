@@ -1,0 +1,280 @@
+---
+title: 'Кастомизация системы'
+---
+
+import { FileTree } from '@astrojs/starlight/components'
+
+Одно из больших преимуществ Linux -- возможность полностью настроить систему под
+себя. В этом гайде описана кастомизация системы. Часто этот процесс называется
+_"ricing"_. Конфигурационные файлы часто называют _"dotfiles"_ (_дотфайлы_, или
+просто _доты_).
+
+## Графическое окружение
+
+Настроить под себя можно практически любое окружение рабочего стола, оконный
+менеджер или Wayland-композитор.
+
+**Xorg** -- реализация X Window System (часто называют "X", "иксы"). Является
+централизованным и работает вместе с оконным менеджером и (опционально)
+композитором.
+
+**Wayland** -- более современная реализация графического сервера. Более
+безопасен, чем Xorg, часто более эффективен, предоставляет более широкие
+настройки. В отличие от X, каждый Wayland-композитор реализует протоколы
+самостоятельно, т.е. нет центрального компонента.
+
+### Окружения рабочего стола
+
+- [GNOME](https://www.gnome.org/) (X11, Wayland) -- простое в использовании
+  окружение, основанное на GTK.
+- [KDE Plasma](https://kde.org/) (X11, Wayland) -- окружение рабочего стола,
+  основанное на Qt.
+- [Cinnamon](https://github.com/linuxmint/cinnamon) (X11, Wayland) -- окружение,
+  разработанное командой Linux Mint.
+- [Xfce](https://www.xfce.org/) (X11) -- минималистичное и производительное
+  оконное окружение.
+
+_и другие_.
+
+### Оконные менеджеры (X11)
+
+- [bspwm](https://github.com/baskerville/bspwm) -- тайловый оконный менеджер на
+  основе двоичного разбиения пространства.
+- [awesomewm](https://awesomewm.org/) -- широко кастомизируемый оконный менеджер,
+  настраиваемый на Lua.
+- [i3](https://i3wm.org/) -- ручной тайловый оконный менеджер.
+- [Qtile](https://wiki.archlinux.org/title/Qtile) -- тайловый оконный менеджер,
+  написанный и настраиваемый на Python.
+
+_и другие_.
+
+### Композиторы (Wayland)
+
+- [Niri](https://github.com/YaLTeR/niri) -- Wayland-композитор с прокручиваемыми
+  колонками.
+- [Hyprland](https://hyprland.org/) -- современный, широко настраиваемый,
+  тайловый Wayland-композитор.
+- [Sway](https://swaywm.org/) -- ручной тайловый композитор, полностью
+  совместимый с i3.
+
+_и другие_.
+
+## Вспомогательные компоненты рабочего стола
+
+Если вы используете полноценные окружения рабочего стола, то, скорее всего, не
+нуждаетесь в установке дополнительный компонентов, таких как панели или
+лаунчеры, так как окружение уже поставляет их. Оконные менеджеры и отдельные
+Wayland-композиторы зачастую не реализуют этих компонентов, поэтому вы можете
+захотеть установить и настроить их отдельно.
+
+### Полноценные системы виджетов
+
+- [Astal](https://aylur.github.io/astal/) (X11, Wayland) -- фреймворк для
+  создания GTK-виджетов рабочего стола, поддерживающий разные языки
+  программирования.
+- [eww](https://elkowar.github.io/eww/) (X11, Wayland) -- автономная система
+  виджетов на языке Rust, позволяющая реализовать собственные виджеты в любом
+  оконном менеджере.
+- [Fabric](https://wiki.ffpy.org/) (X11, Wayland) -- система виджетов на Python.
+
+В данный момент я разрабатываю [собственную систему
+виджетов](https://shelepugin.ru/projects/saya), реализующую кастомные виджеты,
+набор встроенных компонентов, а также библиотеку для разработки вспомогательных
+компонентов на Go.
+
+### Панели
+
+- [Polybar](https://github.com/polybar/polybar) (X11) -- быстрая и простая в
+  использовании панель.
+- [Waybar](https://github.com/Alexays/Waybar) (Wayland) -- широко настраиваемая
+  панель для различных Wayland-композиторов.
+- [Yambar](https://codeberg.org/dnkl/yambar) (X11, Wayland) -- модульная панель,
+  вдохновлённая Polybar.
+
+### Уведомления
+
+- [dunst](https://github.com/dunst-project/dunst) (X11, Wayland) -- легковесный
+  и настраиваемый демон сервер.
+- [mako](https://github.com/emersion/mako) (X11, Wayland) -- простой демон
+  уведомлений.
+- [Sway Notification Center](https://github.com/ErikReider/SwayNotificationCenter) (Wayland)
+  -- демон уведомлений с центром управления.
+
+### Экраны блокировки
+
+- [i3lock](https://github.com/i3/i3lock) (X11) -- простой экран блокировки.
+  - [i3lock-color](https://github.com/Raymo111/i3lock-color) -- форк i3lock,
+    добавляющий множество новых функций.
+- [swaylock](https://github.com/swaywm/swaylock) (Wayland) -- простой экран
+  блокировки для Wayland-композиторов.
+  - [swaylock-effects](https://github.com/mortie/swaylock-effects) -- форк
+    swaylock, добавляющий причудливые эффекты.
+- [gtklock](https://github.com/jovanlanik/gtklock) -- экран блокировки для
+  Wayland, основанный на GTK.
+- [Hyprlock](https://github.com/hyprwm/hyprlock) -- экран блокировки Hyprland
+  (также работает с другими композиторами) с графическим ускорением.
+
+### Лаунчеры
+
+- [dmenu](https://tools.suckless.org/dmenu/) (X11) -- простой вертикальный
+  лаунчер приложений.
+- [rofi](https://github.com/davatorium/rofi) (X11) -- лаунчер, динамическое меню
+  и переключатель окон.
+  - [rofi-wayland](https://github.com/in0ni/rofi-wayland) (X11, Wayland) --
+    форк, реализующий поддержку Wayland.
+- [wofi](https://hg.sr.ht/~scoopta/wofi) (Wayland) -- лаунчер для
+  Wayland-композиторов.
+- [tofi](https://github.com/philj56/tofi) (Wayland) -- минималистичный лаунчер с
+  упором на скорость.
+
+### Обои
+
+- [feh](https://github.com/derf/feh) (X11) -- просмотрщик изображений с
+  возможностью устанавливать обои.
+- [swaybg](https://github.com/swaywm/swaybg) (Wayland) -- простая утилита для
+  установки обоев.
+- [Hyprpaper](https://github.com/hyprwm/hyprpaper) (Wayland) -- быстрая утилита
+  для отображения обоев с поддержкой IPC.
+- [swww](https://github.com/LGFae/swww) (Wayland) -- решение для обоев с
+  поддержкой IPC, анимированных обоев и множества эффектов.
+
+### Скриншоты
+
+- [scrot](https://github.com/resurrecting-open-source-projects/scrot) (X11) --
+  утилита командной строки для снимков экрана.
+- [xsnip](https://github.com/ws-kj/xsnip) (X11) -- минималистичный и удобный
+  инструмент для скриншотов.
+- [grim](https://sr.ht/~emersion/grim/) и
+  [slurp](https://github.com/emersion/slurp) (Wayland) -- утилиты для выделения
+  области экрана и снимков экрана.
+  - slurp позволяет выделить область экрана и печатает в стандартный вывод
+    координаты.
+  - grim принимает на вход координаты и делает снимок экрана.
+
+## Темы приложений
+
+### GTK
+
+Один из плюсов GTK -- широкие возможности для настройки внешнего вида.
+Существует большое разнообразие тем, хорошим ресурсом для поиска которых
+является [Pling](https://www.pling.com/), а именно -- раздел
+[GNOME-Look](https://www.gnome-look.org/browse/).
+
+Ниже приведены некоторые темы для GTK-приложений:
+
+- [Mono](https://github.com/witalihirsch/Mono-gtk-theme)
+- [Ant](https://github.com/EliverLara/Ant)
+- [Otis](https://github.com/EliverLara/otis)
+- [BlueSky](https://github.com/i-mint/bluesky)
+
+Чтобы использовать тему, выполните команды
+
+```sh
+gsettings set org.gnome.desktop.interface gtk-theme <название-темы>
+gsettings set org.gnome.desktop.wm.preferences theme <название-темы>
+```
+
+Также можно выбрать светлую или тёмную тему. Это зачастую не повлияет на тему
+непосредственно, но сообщит приложениям (например, браузеру), что пользователь
+выбрал ту или иную тему.
+
+```sh
+# Для тёмной темы.
+gsettings set org.gnome.desktop.interface color-scheme prefer-dark
+
+# Для светлой темы
+gsettings set org.gnome.desktop.interface color-scheme prefer-light
+```
+
+Наконец, существует утилита
+[gnome-tweaks](https://gitlab.gnome.org/GNOME/gnome-tweaks), которая позволяет
+настраивать тему GTK-приложений. Изначально она предназначена для GNOME, но
+работает и вне этого оконного окружения.
+
+### Qt
+
+С кастомизацией Qt-приложений дела обстоят сложнее. Тем гораздо меньше, а
+изменить их достаточно сложно. Тем не менее, в этом разделе приведены советы по
+настройке внешнего вида приложений, использующих Qt.
+
+Начиная с 5-ой версии Qt, существует возможность стилизовать приложения на Qt в
+соответствии с темой GTK. Это работает не всегда, но помогает. Для этого
+установите переменную окружения глобально (например, в конфигурационном файле
+вашего оконного менеджера):
+
+```sh
+QT_QPA_PLATFORMTHEME=gtk3
+```
+
+Ещё один способ обеспечить схожий внешний вид для приложений на GTK и Qt --
+использование тем, доступных для обоих систем, например, _Breeze_ и _Adwaita_.
+
+При использовании Wayland-композиторов Qt-приложения, как правило, выглядят
+лучше, чем на Xorg при использовании оконных менеджеров. Полноценные окружения
+рабочего стола, как правило, лишены данной проблемы -- они поставляют приложения
+с соответствующими виджетами (например, GTK-приложения у GNOME, Qt-приложения у
+KDE Plasma), а для прочих приложений используют свои темы.
+
+## Иконки
+
+Вы можете поменять иконки по умолчанию, установив желаемый набор. Найти и
+скачать наборы можно как вручную (например,
+[отсюда](https://www.pling.com/browse?cat=386&ord=rating)), так и из
+репозиториев вашего дистрибутива.
+
+- [Arch Linux (официальные репозитории)](https://archlinux.org/packages/?sort=&q=icon-theme&maintainer=&last_update=&flagged=&limit=50)
+- [Arch User Repository (AUR)](https://aur.archlinux.org/packages?O=0&L=0&C=17&K=icon-theme&SeB=nd&SB=n&SO=a&PP=50&do_Search=Go)
+
+Чтобы использовать набор, выполните команду ниже. Это работает только с
+GTK-приложениями.
+
+```
+gsettings set org.gnome.desktop.interface icon-theme <название-набора>
+```
+
+## Курсоры
+
+Как и в случае с иконками, вы можете поменять курсоры по умолчанию.
+
+Установка из репозиториев:
+
+- [Arch Linux (официальные репозитории)](https://archlinux.org/packages/?sort=&q=-cursors)
+- [Arch User Repository (AUR)](https://aur.archlinux.org/packages?SeB=nd&K=cursor)
+
+Ручная установка:
+
+- [GNOME Look](https://www.gnome-look.org/browse?cat=107&ord=rating)
+- [Open Desktop](https://www.opendesktop.org/browse/cat/107)
+
+При ручной установке, я рекомендую устанавливать темы для курсоров, заменяя тему
+по умолчанию. Это позволяет достичь одинакового отображения в GTK и Qt, кроме
+того, использование этого метода также установит курсоры для таких компонентов,
+как менеджеры дисплеев (экран входа в систему). Для этого распакуйте архив с
+курсорами в директорию `/usr/share/icons/default`. Должна получиться подобная
+структура:
+
+<FileTree>
+- /usr/share/icons/default
+  - cursor.theme
+  - cursors/
+  - index.theme
+</FileTree>
+
+## Ресурсы
+
+Список ресурсов для вдохновления:
+
+- [r/unixporn](https://www.reddit.com/r/unixporn/)
+- [GitHub](https://github.com/topics/dotfiles)
+- [Niri Setup Showcase](https://github.com/YaLTeR/niri/discussions/325)
+- [Hyprland Hall of Fame](https://hyprland.org/hall_of_fame/)
+
+Разные конфигурации, которые можно взять за основу:
+
+- [Misterio77/nix-config](https://github.com/Misterio77/nix-config)
+- [Niwau/dotfiles](https://github.com/Niwau/dotfiles)
+- [NotMugil/dotfiles](https://github.com/NotMugil/dotfiles)
+- [SsubezZ/hyprland-dots](https://github.com/SsubezZ/hyprland-dots)
+- [ericmurphyxyz/dotfiles](https://github.com/ericmurphyxyz/dotfiles)
+- [shelepuginivan/dotfiles](https://github.com/shelepuginivan/dotfiles)
+- [shub39/dotfiles](https://github.com/shub39/dotfiles)
