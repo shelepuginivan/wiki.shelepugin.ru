@@ -86,7 +86,39 @@ ffmpeg -i in.mp4 -c:v libx265 -preset fast -crf 28 -tag:v hvc1 -c:a eac3 -b:a 22
 
 :::
 
+## Создание видео-стикеров (Telegram)
+
+Telegram позволяет создавать
+[видео-стикеры](https://core.telegram.org/stickers/#video-stickers-and-emoji).
+Файл видео-стикера должен удовлетворять следующим условиям:
+
+- Формат `.webm`
+- До 30 кадров в секунду
+- Кодек VP9
+- Отсутствие аудиопотока
+- Одна сторона должна быть размером 512 пикселей, другая сторона меньше или
+  равна 512 пикселей
+- Продолжительность не должна превышать 3 секунд
+- Размер видео после кодирования не должен превышать 256 КБ
+
+Создать файл видео-стикера можно командой:
+
+```sh
+ffmpeg -y -i in.mov -r 30 -t 2.99 -an -c:v libvpx-vp9 \
+    -pix_fmt yuva420p \
+    -vf 'scale=512:512:force_original_aspect_ratio=decrease' \
+    -b:v 400K \
+    out.webm
+```
+
+При этом формат входного файла (`in.mov` в примере) может быть практически
+любым: `ffmpeg` поддерживает большое количество форматов видео и изображений.
+
+Если размер выходного файла больше 256 КБ, попробуйте уменьшить значение
+параметра `-b:v 400K`, например, до `-b:v 300K`.
+
 ## См. также
 
 -   [\[Stack Exchange\] How do I fade in and out in FFmpeg?](https://video.stackexchange.com/questions/28269/how-do-i-fade-in-and-out-in-ffmpeg)
 -   [\[GitHub Gist\] `ffmpeg-compress.mp4`](https://gist.github.com/lukehedger/277d136f68b028e22bed)
+-   [\[GitHub Gist\] Telegram - Create Video Sticker (.WEBM) with FFMPEG ](https://gist.github.com/xacnio/902a750d0858dd8dd468c3cd73166dc4)
