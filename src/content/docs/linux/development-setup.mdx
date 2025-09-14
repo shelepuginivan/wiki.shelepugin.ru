@@ -4,8 +4,8 @@ description: 'Настройка Arch Linux для разработки на р�
 ---
 
 import { Tabs, TabItem } from '@astrojs/starlight/components'
-import ArchPkg from '../../../components/ArchPkg.astro'
-import Repology from '../../../components/Repology.astro'
+
+import { ArchPkg, Repology } from '../../../components/packaging'
 
 Гайд по настройке Arch Linux для разработки.
 
@@ -69,20 +69,11 @@ sudo ln -s /usr/local/go/bin/go /usr/local/bin/go
 
 ##### 1. `golangci-lint` &mdash; линтеры для языка Go
 
-Установите пакет <ArchPkg pkg="golangci-lint" repo="aur" />:
+Установите пакет <ArchPkg pkg="golangci-lint" />:
 
-<Tabs syncKey="aur-helper">
-    <TabItem label="paru">
-        ```shell
-        paru -S golangci-lint
-        ```
-    </TabItem>
-    <TabItem label="yay">
-        ```shell
-        yay -S golangci-lint
-        ```
-    </TabItem>
-</Tabs>
+```sh
+sudo pacman -S golangci-lint
+```
 
 <Repology pkg="golangci-lint" />
 
