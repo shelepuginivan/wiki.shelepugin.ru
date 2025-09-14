@@ -1,0 +1,19 @@
+---
+import { Code, Tabs, TabItem } from '@astrojs/starlight/components'
+
+interface Props {
+    pkg: string
+}
+
+const { pkg } = Astro.props
+---
+
+<Tabs syncKey="aur-helper">
+    <TabItem label="paru">
+        <Code code={`paru -S ${pkg}`} lang="shell" />
+    </TabItem>
+    <TabItem label="yay">
+        <Code code={`yay -S ${pkg}`} lang="shell" />
+    </TabItem>
+</Tabs>
+
