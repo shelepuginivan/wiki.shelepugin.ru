@@ -1,10 +1,12 @@
 import { defineConfig } from 'astro/config'
 import starlight from '@astrojs/starlight'
+import icon from 'astro-icon'
 
 export default defineConfig({
     site: 'https://wiki.shelepugin.ru',
 
     integrations: [
+        icon(),
         starlight({
             title: 'wiki.shelepugin.ru',
 
