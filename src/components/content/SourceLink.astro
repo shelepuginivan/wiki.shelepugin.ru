@@ -1,0 +1,80 @@
+---
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+    href: string
+    source?: string
+    icon?: string
+}
+
+const { source, href, icon } = Astro.props
+const iconName = icon ?? getIcon(href, source)
+
+function getIcon(href: string, source?: string): string | undefined {
+    if (source) {
+        switch (source.toLowerCase()) {
+            case "archlinux":
+                return "simple-icons:archlinux"
+
+            case "gh":
+            case "github":
+                return "simple-icons:github"
+
+            case "linuxmint":
+                return "simple-icons:linuxmint"
+
+            case "ms":
+            case "microsoft":
+                return "simple-icons:microsoft"
+
+            case "redhat":
+                return "simple-icons:redhat"
+        }
+    }
+
+    switch (getBaseDomain(URL.parse(href).hostname)) {
+    case "archlinux.org":
+        return "simple-icons:archlinux"
+
+    case "github.com":
+        return "simple-icons:github"
+
+    case "linuxmint.com":
+        return "simple-icons:linuxmint"
+
+    case "microsoft.com":
+        return "simple-icons:microsoft"
+
+    case "redhat.com":
+        return "simple-icons:redhat"
+
+    case "stackexchange.com":
+    case "stackoverflow.com":
+        return "simple-icons:stackexchange"
+    }
+}
+
+function getBaseDomain(hostname: string): string {
+    const parts = hostname.split('.')
+    if (parts.length < 2) {
+        return hostname
+    }
+
+    return parts.slice(-2).join('.')
+}
+---
+
+<a href={href} target="blank" class="source-link">
+    { iconName && <Icon name={iconName} /> }
+    <slot />
+</a>
+
+<style>
+    .source-link {
+        display: inline-flex;
+        gap: 4px;
+        vertical-align: middle;
+        align-items: center;
+        margin-bottom: 3px;
+    }
+</style>
