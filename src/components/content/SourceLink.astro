@@ -32,7 +32,7 @@ function getIcon(href: string, source?: string): string | undefined {
         }
     }
 
-    switch (getBaseDomain(URL.parse(href).hostname)) {
+    switch (getBaseDomain(new URL(href).hostname)) {
     case "archlinux.org":
         return "simple-icons:archlinux"
 
