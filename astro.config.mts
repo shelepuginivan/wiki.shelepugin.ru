@@ -15,9 +15,13 @@ export default defineConfig({
                 },
             },
 
-            social: {
-                github: 'https://github.com/shelepuginivan',
-            },
+            social: [
+                {
+                    icon: 'github',
+                    href: 'https://github.com/shelepuginivan',
+                    label: 'GitHub',
+                },
+            ],
 
             favicon: 'favicon.png',
             logo: {
