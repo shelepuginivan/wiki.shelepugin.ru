@@ -3,7 +3,9 @@ title: 'Виртуальные машины. libvirt и QEMU'
 description: 'Создание, настройка и использование виртуальных машин libirt с гипервизором QEMU'
 ---
 
+import { SourceLink } from '@components/content'
 import { ArchPkg, Repology } from '@components/packaging'
+
 
 ## Установка
 
@@ -96,7 +98,7 @@ vnc_allow_host_audio = 1
 ```
 
 В качестве альтернативы можно использовать
-[SPICE](https://wiki.archlinux.org/title/QEMU#SPICE).
+<SourceLink href="https://wiki.archlinux.org/title/QEMU#SPICE">SPICE</SourceLink>.
 
 ### virtiofs
 
@@ -146,7 +148,8 @@ virsh edit <имя ВМ>
 mount -t virtiofs host /mnt
 ```
 
-См. также: [\[RedHat\] Sharing files between the host and its virtual machines by using virtiofs](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/configuring_and_managing_virtualization/sharing-files-between-the-host-and-its-virtual-machines_configuring-and-managing-virtualization#sharing-files-between-the-host-and-its-virtual-machines-using-virtio-fs_sharing-files-between-the-host-and-its-virtual-machines).
+См. также:
+<SourceLink href="https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/configuring_and_managing_virtualization/sharing-files-between-the-host-and-its-virtual-machines_configuring-and-managing-virtualization#sharing-files-between-the-host-and-its-virtual-machines-using-virtio-fs_sharing-files-between-the-host-and-its-virtual-machines">Sharing files between the host and its virtual machines by using virtiofs</SourceLink>.
 
 ### Подключение по SSH. Port forwarding.
 
@@ -245,4 +248,5 @@ New-ItemProperty -Path "HKLM:\SOFTWARE\OpenSSH" -Name DefaultShell -Value "C:\Wi
 ssh <пользователь на ВМ>@127.0.0.1 -p 2222
 ```
 
-См. также: [\[Microsoft\] Key-based authentication in OpenSSH for Windows](https://learn.microsoft.com/en-us/windows-server/administration/openssh/openssh_keymanagement).
+См. также:
+<SourceLink href="https://learn.microsoft.com/en-us/windows-server/administration/openssh/openssh_keymanagement">Key-based authentication in OpenSSH for Windows</SourceLink>.
