@@ -1,13 +1,18 @@
 ---
-const props = Astro.props;
+interface Props {
+    pkg: string
+    title?: string
+}
+
+const { pkg, title = "Статус сборки пакетов" } = Astro.props;
 ---
 
 <details>
-    <summary>Статус сборки пакетов</summary>
-    <a href={`https://repology.org/project/${props.pkg}/versions`} target="_blank">
+    <summary>{title}</summary>
+    <a href={`https://repology.org/project/${pkg}/versions`} target="_blank">
         <img
-            src={`https://repology.org/badge/vertical-allrepos/${props.pkg}.svg`}
-            alt="Статус сборки пакетов"
+            src={`https://repology.org/badge/vertical-allrepos/${pkg}.svg`}
+            alt={title}
         />
     </a>
 </details>
