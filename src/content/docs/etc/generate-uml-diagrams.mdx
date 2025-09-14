@@ -1,0 +1,328 @@
+---
+title: 'Генерация UML диаграмм из кода'
+description: 'Генерация UML диаграмм при помощи clang-uml и plantuml'
+---
+
+import { Image } from 'astro:assets'
+import { FileTree, Steps, Tabs, TabItem } from '@astrojs/starlight/components'
+import { ArchPkg, AurHelper, Repology } from '@components/packaging'
+
+import umlExample from './img/uml-example.svg'
+
+Генерация UML диаграмм при помощи
+[`clang-uml`](https://github.com/bkryza/clang-uml/tree/master) и
+[PlantUML](https://github.com/plantuml/plantuml). Осуществляется в 3 этапа:
+
+<Steps>
+
+1. Генерации базы данных компиляции `compile_commands.json`
+2. Генерация UML-диаграммы в формате разметки PlantUML
+3. Конвертация разметки PlantUML в выбранный формат
+
+</Steps>
+
+## `compile_commands.json`
+
+Генерация `compile_commands.json` зависит от системы сборки. Ниже перечислены
+способы для некоторых распространённых систем сборки:
+
+### CMake
+
+Начиная с версии 2.8.5, CMake поддерживает опцию `CMAKE_EXPORT_COMPILE_COMMANDS`:
+
+```sh
+cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON .
+```
+
+Команда выше создаст файл `compile_commands.json` в директории сборки.
+
+
+### Meson
+
+_Файл автоматически создаётся в директории сборки._
+
+### Ninja
+
+Начиная с версии 1.2, можно передать аргументы командной строки `-t compdb`:
+
+```sh
+ninja -t compdb > compile_commands.json
+```
+
+### Прочие (специализированные) системы сборки
+
+Некоторые системы сборки (напр. GNU Autotools) не поддерживают генерацию `compile_commands.json`.
+В этом случае базу данных компиляции можно сгенерировать при помощи внешних инструментов.
+
+Установите пакет <ArchPkg pkg="bear" />:
+
+```shell
+sudo pacman -S bear
+```
+
+<Repology pkg="bear-clang" />
+
+Предположим, проект использует `make`, команда для сборки:
+
+```sh
+make -j4
+```
+
+Тогда для генерации `compile_commands.json` при помощи `bear` нужно вызвать
+утилиту следующим образом:
+
+```sh
+bear -- make -j4
+```
+
+## Генерация диаграммы в формате PlantUML
+
+Для генерации PlantUML-диаграммы используется утилита
+[`clang-uml`](https://github.com/bkryza/clang-uml/tree/master).
+
+Установите пакет <ArchPkg pkg="clang-uml" repo="aur" />:
+
+<AurHelper pkg="clang-uml" />
+<Repology pkg="clang-uml" />
+
+Необходимо создать конфигурационный файл `.clang-uml` в той директории, из
+которой утилита будет запускаться. Базовая конфигурация может выглядеть
+следующим образом:
+
+```yaml
+compilation_database_dir: <build-dir>
+output_directory: diagrams
+
+diagrams:
+    config_class:
+        type: class
+```
+
+`<build-dir>` необходимо заменить на путь до директории, в которой находится
+файл `compile_commands.json`.
+
+Например, при использовании Meson:
+
+<FileTree>
+- project/
+    - builddir/                    # Директория сборки Meson
+        - ...
+        - **compile_commands.json**
+    - ...
+    - .clang-uml
+    - main.cpp
+    - meson.build
+</FileTree>
+
+в `.clang-uml` следует указать:
+
+```yaml
+compilation_database_dir: builddir
+```
+
+Более подробную информацию о конфигурации см. в
+[документации `clang-uml`](https://github.com/bkryza/clang-uml/blob/master/docs/configuration_file.md).
+
+Запустите `clang-uml`:
+
+```sh
+clang-uml
+```
+
+В соответствии с конфигурацией, в директории `<output_directory>` будет
+сгенерирован `.pump`-файл. Для типовой конфигурации выше будет сгенерирован
+файл `diagrams/config_class.puml`.
+
+## Конвертация PlantUML в изображение
+
+Для конвертации `.puml`-файла можно использовать CLI-интерфейс PlantUML.
+
+Установите пакеты <ArchPkg pkg="graphviz" /> и <ArchPkg pkg="plantuml" />:
+
+```sh
+sudo pacman -S graphviz plantuml
+```
+
+<Repology pkg="graphviz" title="Статус сборки (graphviz)" />
+<Repology pkg="plantuml" title="Статус сборки (plantuml)" />
+
+Запустите `plantuml`, указав путь до `.puml`-файла:
+
+```sh
+plantuml ./diagrams/config_class.puml
+```
+
+Диаграмма будет конвертирована в `diagrams/config_class.png`.
+
+Выходной формат можно изменить при помощи флагов
+
+|  Флаг   | Формат |
+| :-----: | :----: |
+| `-tpng` |  PNG   |
+| `-tsvg` |  SVG   |
+| `-tpdf` |  PDF   |
+
+См. полный список форматов в [документации
+PlantUML](https://plantuml.com/command-line).
+
+## Пример
+
+Ниже представлен простой пример проекта и генерации UML-диаграмм для него.
+
+<FileTree>
+
+- project
+  - bar.cpp
+  - bar.hpp
+  - foo.cpp
+  - foo.hpp
+  - main.cpp
+  - Makefile
+
+</FileTree>
+
+<Tabs>
+    <TabItem label="bar.cpp">
+        ```cpp
+        #include "bar.hpp"
+        
+        Bar::Bar(Foo *foo) {
+            m_Foo = foo;
+        }
+        
+        void Bar::printUnderlyingFooValue() {
+            if (m_Foo != nullptr) {
+                m_Foo->printValue();
+            }
+        }
+        ```
+    </TabItem>
+
+    <TabItem label="bar.hpp">
+        ```cpp
+        #ifndef BAR_HPP
+        #define BAR_HPP
+        
+        #include "foo.hpp"
+        
+        class Bar {
+            public:
+                Bar(Foo *foo);
+                void printUnderlyingFooValue();
+        
+            private:
+                Foo *m_Foo;
+        };
+
+        #endif /* BAR_HPP */
+        ```
+    </TabItem>
+
+    <TabItem label="foo.cpp">
+        ```cpp
+        #include <iostream>
+
+        #include "foo.hpp"
+        
+        Foo::Foo(int v) {
+            m_Value = v;
+        }
+        
+        void Foo::printValue() {
+            std::cout << "Value is " << m_Value << std::endl;
+        }
+        ```
+    </TabItem>
+
+    <TabItem label="foo.hpp">
+        ```cpp
+        #ifndef FOO_HPP
+        #define FOO_HPP
+        
+        class Foo {
+            public:
+                Foo(int v);
+                void printValue();
+        
+            private:
+                int m_Value;
+        };
+
+        #endif /* FOO_HPP */
+        ```
+    </TabItem>
+
+    <TabItem label="main.cpp">
+        ```cpp
+        #include "bar.hpp"
+        #include "foo.hpp"
+        
+        int main() {
+            Foo *foo = new Foo(69);    
+            Bar *bar = new Bar(foo);
+        
+            bar->printUnderlyingFooValue();
+        
+            return 0;
+        }
+        ```
+    </TabItem>
+
+    <TabItem label="Makefile">
+        ```make
+        # При копировании файла замените пробелы перед командами на табуляцию.
+
+        build: bar.o foo.o main.o
+            g++ -o my-binary bar.o foo.o main.o
+    
+        bar.o: bar.cpp bar.hpp
+            g++ -c bar.cpp
+        
+        foo.o: foo.cpp foo.hpp
+            g++ -c foo.cpp
+        
+        main.o: main.cpp
+            g++ -c main.cpp
+        
+        clean:
+            rm -rf my-binary *.o
+        ```
+    </TabItem>
+</Tabs>
+
+Шаги для генерации UML-диаграммы:
+
+<Steps>
+
+1.  Сгенерировать `compile_commands.json`:
+
+    ```sh
+    bear -- make
+    ```
+
+2.  Создать конфигурационный файл `.clang-uml`:
+
+    ```yaml title=".clang-uml"
+    diagrams:
+        config_class:
+            type: class
+    ```
+
+3.  Сгенерировать диаграмму в формате PlantUML:
+
+    ```sh
+    clang-uml
+    ```
+
+4.  Конвертировать `.puml`-файл в изображение:
+
+    ```sh
+    plantuml -tsvg ./config_class.puml
+    ```
+
+</Steps>
+
+<figure class="pic">
+    <Image src={umlExample} alt="UML-диаграмма из примера"/>
+    <figcaption>Сгенерированная UML-диаграмма</figcaption>
+</figure>
