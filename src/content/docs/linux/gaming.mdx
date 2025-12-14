@@ -10,9 +10,13 @@ import { ArchPkg } from '@components/packaging'
 
 Особенности:
 
--   Для запуска исполняемых файлов Windows (`.exe`) используется [wine](http://winehq.org/)
+-   Для запуска исполняемых файлов Windows (`.exe`) используется
+    [wine](http://winehq.org/)
 -   В качестве лаунчера используется [Lutris](https://lutris.net/)
--   Для систем с [Wayland](https://wayland.freedesktop.org/) используются [Cage](https://www.hjdskes.nl/projects/cage/) и [gamescope](https://github.com/ValveSoftware/gamescope)
+-   Для систем с [Wayland](https://wayland.freedesktop.org/) используются
+    [xwayland-satellite](https://github.com/Supreeeme/xwayland-satellite),
+    [Cage](https://www.hjdskes.nl/projects/cage/) и
+    [gamescope](https://github.com/ValveSoftware/gamescope)
 
 ## 1. Включение репозитория `multilib`
 
@@ -20,13 +24,13 @@ import { ArchPkg } from '@components/packaging'
 которые можно использовать для запуска и сборки 32-битных приложений на
 64-битных установках.
 
-Чтобы включить `multilib`:
+Чтобы включить `multilib`, откройте файл `/etc/pacman.conf`:
 
 ```shell
 sudo -e /etc/pacman.conf
 ```
 
-раскомментировать строки:
+Раскомментируйте строки:
 
 ```ini
 [multilib]
@@ -51,7 +55,8 @@ sudo pacman -S --needed lutris wine wine-gecko wine-mono winetricks giflib lib32
 
 Для систем с PipeWire понадобятся пакеты
 <ArchPkg pkg="lib32-libpipewire" repo="multilib" /> и
-<ArchPkg pkg="lib32-pipewire" repo="multilib" /> &mdash; для работы звука:
+<ArchPkg pkg="lib32-pipewire" repo="multilib" /> — для воспроизведения аудио
+32-битных приложений:
 
 ```shell
 sudo pacman -S lib32-libpipewire lib32-pipewire
@@ -87,8 +92,41 @@ Wayland-композиторах потребуется использовать
 -   [xwayland-satellite](https://github.com/Supreeeme/xwayland-satellite)
 -   [xwayland-run](https://gitlab.freedesktop.org/ofourdan/xwayland-run)
 
-В этом гайде используются Cage и gamescope, так как на моей системе они
-работают лучше всего.
+В этом гайде рассмотрены xwayland-satellite, Cage и gamescope.
+
+### xwayland-satellite
+
+<Steps>
+
+1.  Установите пакет <ArchPkg pkg="xwayland-satellite" />:
+
+    ```shell
+    sudo pacman -S xwayland-satellite
+    ```
+
+2.  Включите сервис `xwayland-satellite`:
+
+    ```shell
+    systemctl --user enable --now xwayland-satellite
+    ```
+
+    :::note
+
+    Если вы используете [Niri](https://github.com/YaLTeR/niri), пропустите
+    этот шаг. Начиная с версии `25.08` в Niri есть [встроенная интеграция
+    xwayland-satellite](https://yalter.github.io/niri/Xwayland.html).
+
+    :::
+
+3.  В настройках Lutris переменную окружения `DISPLAY` и установите значение
+    `:0` — таким образом wine будет всегда использовать Xwayland для отображения.
+
+    ![Установка переменной окружения DISPLAY в Lutris](./img/gaming-on-linux-xwayland-satellite-options.png)
+
+</Steps>
+
+После настройки любая игра, запускаемая с помощью wine, будет открываться с
+помощью xwayland-satellite в отдельном окне.
 
 ### Cage
 
@@ -123,7 +161,8 @@ Wayland-композиторах потребуется использовать
                 - **HoloCure.exe**
     </FileTree>
 
-5.  В качестве альтернативы можно создать вспомогательный скрипт и указать его как исполняемый файл:
+5.  В качестве альтернативы можно создать вспомогательный скрипт и указать его
+    как исполняемый файл:
 
     <FileTree>
         - Games
