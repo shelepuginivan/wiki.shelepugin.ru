@@ -6,16 +6,12 @@ description: 'Работа с программой ffmpeg. Примеры исп
 import { SourceLink } from '@components/content'
 import { ArchPkg, Repology } from '@components/packaging'
 
+`ffmpeg` -- кроссплатформенный инструмент для обработки видео- и аудиофайлов.
 
-<figure class="pic">
-    ![Логотип ffmpeg](./logos/ffmpeg.svg)
-    <figcaption>Логотип ffmpeg</figcaption>
-</figure>
+На этой странице представлены примеры использования `ffmpeg` для пременения тех
+или иных эффектов.
 
----
-
-`ffmpeg` &mdash; кроссплатформенный инструмент для обработки видео- и
-аудиофайлов.
+## Установка
 
 Установите пакет <ArchPkg pkg="ffmpeg" />:
 
@@ -24,9 +20,6 @@ sudo pacman -S ffmpeg
 ```
 
 <Repology pkg="ffmpeg" />
-
-На этой странице представлены примеры использования `ffmpeg` для пременения тех
-или иных эффектов.
 
 ## Затухание/проявление (fade)
 
@@ -113,13 +106,14 @@ ffmpeg -y -i in.mov -r 30 -t 2.99 -an -c:v libvpx-vp9 \
 ```
 
 При этом формат входного файла (`in.mov` в примере) может быть практически
-любым: `ffmpeg` поддерживает большое количество форматов видео и изображений.
+любым -- `ffmpeg` поддерживает
+<SourceLink href="https://ffmpeg.org/ffmpeg-formats.html">огромное</SourceLink>
+количество форматов видео и изображений.
 
 Если размер выходного файла больше 256 КБ, попробуйте уменьшить значение
 параметра `-b:v 400K`, например, до `-b:v 300K`.
 
 ## См. также
-
 
 -   <SourceLink href="https://video.stackexchange.com/questions/28269/how-do-i-fade-in-and-out-in-ffmpeg">How do I fade in and out in FFmpeg?</SourceLink>
 -   <SourceLink href="https://gist.github.com/lukehedger/277d136f68b028e22bed"> Compress mp4 using FFMPEG</SourceLink>
