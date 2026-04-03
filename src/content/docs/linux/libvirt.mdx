@@ -60,7 +60,7 @@ sudo usermod -aG libvirt $(whoami)
 ```sh /<.*>/
 virt-install \
     --name <имя ВМ> \
-    --memory <размер оперативной памяти> \
+    --memory <размер оперативной памяти в МБ> \
     --vcpus <количество виртуальных ядер> \
     --cpu host \
     --cdrom <путь до ISO-образа> \
@@ -250,3 +250,37 @@ ssh <пользователь на ВМ>@127.0.0.1 -p 2222
 
 См. также:
 <SourceLink href="https://learn.microsoft.com/en-us/windows-server/administration/openssh/openssh_keymanagement">Key-based authentication in OpenSSH for Windows</SourceLink>.
+
+## Конвертация OVA в qcow2
+
+OVA -- формат для хранения и распространения ВМ, используемый VirtualBox,
+VMWare и другими системами виртуализации. Представляет собой tar-архив,
+содержащий образ диска и другие файлы.
+
+Распакуйте архив:
+
+```sh
+tar -xvf vm.ova
+```
+
+В рабочей директории должен появиться образ диска, как правило, в формате VMDK.
+Конвертируйте образ в qcow2:
+
+```sh
+qemu-img convert -pf vmdk vm-disk001.vmdk -O qcow2 vm.qcow2
+```
+
+После конвертации импортируйте ВМ с помощью `virt-install`:
+
+```sh /<.*>/
+virt-install \
+    --import \
+    --name <имя ВМ> \
+    --memory <размер оперативной памяти в МБ> \
+    --vcpus <количество виртуальных ядер> \
+    --cpu host \
+    --disk path=<путь до файла qcow2>,format=qcow2 \
+    --network user \
+    --virt-type kvm \
+    --graphics vnc
+```
